@@ -1,0 +1,2935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalotsava Result & Certificate Portal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+        document.getElementById('btn-add-mgr-row').addEventListener('click', () => {
+            for(let i=2; i<=5; i++) {
+                let row = document.querySelector(`.mgr-row[data-index="${i}"]`);
+                if(row && row.style.display === 'none') {
+                    row.style.display = 'grid';
+                    break;
+                }
+            }
+        });
+
+        window.removeMgrRow = function(idx) {
+            let row = document.querySelector(`.mgr-row[data-index="${idx}"]`);
+            if(row) {
+                row.style.display = 'none';
+                document.getElementById(`prof-mgr-name${idx}`).value = '';
+                document.getElementById(`prof-mgr-mob${idx}`).value = '';
+            }
+        };
+</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js">
+        document.getElementById('btn-add-mgr-row').addEventListener('click', () => {
+            for(let i=2; i<=5; i++) {
+                let row = document.querySelector(`.mgr-row[data-index="${i}"]`);
+                if(row && row.style.display === 'none') {
+                    row.style.display = 'grid';
+                    break;
+                }
+            }
+        });
+
+        window.removeMgrRow = function(idx) {
+            let row = document.querySelector(`.mgr-row[data-index="${idx}"]`);
+            if(row) {
+                row.style.display = 'none';
+                document.getElementById(`prof-mgr-name${idx}`).value = '';
+                document.getElementById(`prof-mgr-mob${idx}`).value = '';
+            }
+        };
+</script>
+
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary: #10b981;
+            --secondary-hover: #059669;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.08);
+            --shadow-hover: 0 20px 40px -10px rgba(79,70,229,0.15);
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--background); 
+            color: var(--text-main); 
+            -webkit-text-size-adjust: 100%; 
+            line-height: 1.6;
+        }
+        
+        /* --- BEAUTIFUL PUBLIC LOGIN VIEW --- */
+        #login-view {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: radial-gradient(circle at top right, #f1f5f9, #e2e8f0);
+        }
+
+        .premium-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding: 20px 5%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+        }
+
+        .premium-header h1 {
+            background: linear-gradient(135deg, #1e3a8a, #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 36px;
+            font-weight: 800;
+            margin: 0 0 5px 0;
+            letter-spacing: -1px;
+        }
+
+        .premium-header h2 {
+            color: var(--text-muted);
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .premium-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px 5%;
+            flex-wrap: wrap;
+        }
+
+        .premium-nav a {
+            background: var(--surface);
+            color: var(--text-main);
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .premium-nav a:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .premium-ticker {
+            background: linear-gradient(90deg, #4f46e5, #ec4899);
+            color: white;
+            padding: 10px 5%;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .premium-ticker span {
+            background: white;
+            color: #4f46e5;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .premium-main {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            padding: 40px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: stretch;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .premium-col-left { flex: 1 1 60%; display: flex; flex-direction: column; gap: 40px; }
+        .premium-col-right { flex: 1 1 35%; display: flex; flex-direction: column; min-width: 320px; }
+
+        .photo-gallery {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+        }
+
+        .photo-gallery img {
+            width: 180px;
+            height: 240px;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 4px solid white;
+        }
+
+        .photo-gallery img:nth-child(1) { transform: rotate(-8deg) translateY(10px); }
+        .photo-gallery img:nth-child(2) { transform: rotate(0deg) scale(1.05); z-index: 2; }
+        .photo-gallery img:nth-child(3) { transform: rotate(8deg) translateY(10px); }
+
+        .photo-gallery img:hover {
+            transform: scale(1.1) translateY(-10px) rotate(0deg) !important;
+            z-index: 10;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-soft);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .glass-card h3 {
+            margin: 0 0 25px 0;
+            font-size: 22px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .glass-card h3 span {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group input, .input-group select {
+            padding: 14px 18px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: white;
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            width: 100%;
+            box-sizing: border-box;
+            font-weight: 500;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn-modern {
+            background: var(--primary);
+            color: white;
+            padding: 16px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn-modern:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(79, 70, 229, 0.35);
+        }
+
+        .btn-success-modern {
+            background: var(--secondary);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
+        }
+        .btn-success-modern:hover {
+            background: var(--secondary-hover);
+            box-shadow: 0 12px 25px rgba(16, 185, 129, 0.35);
+        }
+        
+        .btn-purple-modern {
+            background: #d946ef;
+            box-shadow: 0 8px 20px rgba(217, 70, 239, 0.25);
+        }
+        .btn-purple-modern:hover {
+            background: #c026d3;
+            box-shadow: 0 12px 25px rgba(217, 70, 239, 0.35);
+        }
+        
+        /* Modals and other global resets */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(5px); justify-content: center; align-items: center; z-index: 9999; padding: 20px; box-sizing: border-box; }
+        .modal-content { background: #fff; padding: 35px; border-radius: var(--radius-lg); width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); box-sizing: border-box; }
+        .modal-content h3 { margin-top: 0; color: #0f172a; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; font-size: 20px; }
+        .modal-actions { position: sticky; bottom: -35px; background: rgba(255,255,255,0.95); backdrop-filter: blur(5px); padding: 20px 35px; margin: 25px -35px -35px -35px; border-top: 1px solid #e2e8f0; border-radius: 0 0 var(--radius-lg) var(--radius-lg); display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap; z-index: 100; box-shadow: 0 -10px 20px rgba(255,255,255,0.8); }
+        
+        .btn { padding: 12px 20px; border: none; border-radius: var(--radius-sm); cursor: pointer; font-weight: 600; color: #fff; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; box-sizing: border-box; font-family: inherit; }
+        .btn:hover { transform: translateY(-1px); opacity: 0.95; }
+        .btn-primary { background: var(--primary); }
+        .btn-success { background: var(--secondary); }
+        .btn-warning { background: #f59e0b; color: #fff; }
+        .btn-danger { background: var(--danger); padding: 8px 12px; font-size: 12px; }
+        .btn-clear { background: #475569; padding: 8px 12px; font-size: 12px; }
+        .btn-clear:hover { background: #334155; }
+        .btn-close-modal { background: #e2e8f0; color: #475569; }
+        
+        /* Tables */
+        .table-responsive { background: #fff; border-radius: var(--radius-md); box-shadow: var(--shadow-soft); margin-bottom: 20px; width: 100%; border: 1px solid var(--border); overflow: visible; }
+        table { width: 100%; border-collapse: collapse; min-width: 100%; text-align: left; }
+        th, td { padding: 6px 8px; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+        th { background: #f8fafc; color: #475569; font-weight: 700; position: sticky; top: 0; z-index: 10; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        /* Inputs */
+        .mark-input::-webkit-outer-spin-button, .mark-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .mark-input { -moz-appearance: textfield; width: 60px; text-align: center; padding: 10px; border: 2px solid var(--border); border-radius: 6px; font-weight: 700; background: #f8fafc; transition: all 0.2s; font-size: 14px; font-family: inherit; }
+        .mark-input:focus { border-color: var(--primary); outline: none; background: #fff; }
+        
+        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; width: 100%; }
+        .form-group label { font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; box-sizing: border-box; font-family: inherit; }
+        
+        /* Specific elements */
+        .logout-btn { background: #fef2f2; color: #ef4444; border: 1px solid #fecaca; padding: 10px 18px; border-radius: var(--radius-sm); cursor: pointer; font-weight: 700; font-size: 13px; transition: all 0.2s; font-family: inherit; }
+        .logout-btn:hover { background: #ef4444; color: white; border-color: #ef4444; }
+        
+        @media (max-width: 950px) {
+            .premium-main { flex-direction: column; padding: 20px 5%; gap: 20px; }
+            .premium-col-left, .premium-col-right { flex: 1 1 100%; min-width: unset; }
+            .photo-gallery img { width: 120px; height: 160px; }
+        }
+        
+        @media (max-width: 768px) {
+            .premium-header h1 { font-size: 26px; }
+            .premium-nav { flex-direction: column; align-items: stretch; text-align: center; gap: 10px; padding: 15px 5%; }
+            .photo-gallery { padding: 20px 0; }
+            .photo-gallery img { width: 100px; height: 140px; }
+            .photo-gallery img:nth-child(1) { transform: rotate(-5deg); }
+            .photo-gallery img:nth-child(3) { transform: rotate(5deg); }
+            .glass-card { padding: 25px; }
+        }
+        
+        /* Dashboard Overrides */
+        #school-view header, #app-view header { background: #ffffff; padding: 20px 4%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03); border-bottom: 1px solid #e2e8f0; flex-wrap: wrap; gap: 15px; }
+        .dashboard-container { max-width: 1400px; margin: 30px auto; padding: 0 4%; }
+        
+        .section-card { background: white; border-radius: var(--radius-lg); padding: 35px; box-shadow: var(--shadow-soft); margin-bottom: 30px; border: 1px solid var(--border); }
+        .section-title { font-size: 18px; font-weight: 800; color: #0f172a; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; margin-top: 0; margin-bottom: 25px; display: flex; align-items: center; gap: 12px; }
+        
+        
+        /* --- ADMIN SIDEBAR LAYOUT --- */
+        .admin-layout { display: flex; gap: 15px; align-items: flex-start; max-width: 1600px; margin: 30px auto; padding: 0 4%; }
+        .admin-sidebar { width: 260px; flex-shrink: 0; display: flex; flex-direction: column; gap: 15px; position: sticky; top: 100px; }
+        .admin-main { flex-grow: 1; min-width: 0; display: flex; flex-direction: column; }
+        
+        .sidebar-dropdown { background: white; border-radius: var(--radius-md); border: 1px solid var(--border); box-shadow: var(--shadow-soft); overflow: hidden; transition: all 0.3s ease; }
+        .sidebar-dropdown summary { padding: 18px 20px; font-weight: 700; font-size: 15px; color: var(--text-main); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+        .sidebar-dropdown summary::-webkit-details-marker { display: none; }
+        .sidebar-dropdown summary::after { content: '▼'; font-size: 12px; color: var(--text-muted); transition: transform 0.3s; }
+        .sidebar-dropdown[open] summary::after { transform: rotate(180deg); }
+        .sidebar-dropdown-content { padding: 0 20px 20px 20px; display: flex; flex-direction: column; gap: 15px; }
+        
+        .admin-main .table-responsive { /* max-height removed */ border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-soft); }
+        .admin-main th { background: #f1f5f9; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 0 var(--border); }
+
+        @media (max-width: 950px) {
+            .admin-layout { flex-direction: column; }
+            .admin-sidebar { width: 100%; position: static; }
+            .admin-main .table-responsive { /* max-height removed to prevent drag */ }
+        }
+
+        /* Hide app view by default */
+        #app-view { display: none; background: #f8fafc; min-height: 100vh; padding-bottom: 40px; }
+    </style>
+</head>
+<body>
+    <div id="login-view">
+        <header class="premium-header">
+            <h1>Kalotsava Portal</h1>
+            <h2>Manjeshwara Sub-District</h2>
+        </header>
+
+        <nav class="premium-nav">
+            <a onclick="document.getElementById('username').focus()">🏠 Home / Login</a>
+            <a id="btn-dl-item-codes">📋 Official Item Codes</a>
+            <a id="btn-dl-manual">📖 Registration Manual</a>
+        </nav>
+
+        <div class="premium-ticker">
+            <span>LATEST</span>
+            <marquee scrollamount="6">Welcome to the Official Result Entry & Certificate Management Portal. Live Public Results and Championship Point Standings are accessible below. Schools are requested to complete participant registration at the earliest.</marquee>
+        </div>
+
+        <div class="premium-main">
+            <div class="premium-col-left">
+                <div class="photo-gallery">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bharatanatyam_Mudra_(24).jpg?width=400" alt="Bharatanatyam">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kathakali_(Kerala).jpg?width=400" alt="Kathakali">
+                    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Yakshagana.jpg?width=400" alt="Yakshagana">
+                </div>
+                
+                <div class="glass-card">
+                    <h3><span>🏆</span> Public Results & Standings</h3>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: auto;">
+                        <div style="flex: 1; min-width: 250px; display: flex; flex-direction: column;">
+                            <div class="input-group">
+                                <label>Search Event Result</label>
+                                <select id="public-item-filter"></select>
+                            </div>
+                            <button id="btn-public-result" class="btn-modern btn-success-modern" style="margin-top: auto;">📥 Download Result</button>
+                        </div>
+                        <div style="flex: 1; min-width: 250px; display: flex; flex-direction: column;">
+                            <div class="input-group">
+                                <label>Championship Category</label>
+                                <select id="public-champ-filter">
+                                    <option value="overall">Overall Championship Points</option>
+                                    <option value="LP">LP Section Points</option>
+                                    <option value="UP">UP Section Points</option>
+                                    <option value="HS">HS Section Points</option>
+                                    <option value="HSS">HSS Section Points</option>
+                                </select>
+                            </div>
+                            <button id="btn-public-champ" class="btn-modern btn-purple-modern" style="margin-top: auto;">📊 Point Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="premium-col-right">
+                <div class="glass-card">
+                    <h3><span>🔒</span> Official Login</h3>
+                    
+                    <div style="background: #eff6ff; color: #1e3a8a; padding: 15px; border-radius: 8px; font-size: 14px; margin-bottom: 25px; border: 1px solid #bfdbfe;">
+                        <b>Schools:</b> Login with your official School Code. Default password is <b>password</b>.<br><br>
+                        <b>Admin:</b> Username: <b>admin</b> | Password: <b>password</b>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Username / School Code</label>
+                        <input type="text" id="username" placeholder="Enter Official ID" autocomplete="off">
+                    </div>
+                    <div class="input-group" style="margin-bottom: 30px;">
+                        <label>Secure Password</label>
+                        <input type="password" id="password" placeholder="Enter Password" autocomplete="off">
+                    </div>
+                    
+                    <button id="btn-login-submit" class="btn-modern" style="margin-top: auto;">Secure Login →</button>
+                    
+                    <div id="login-error" style="color: #ef4444; background-color: #fef2f2; border: 1px solid #fecaca; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: bold; text-align: center; display: none; margin-top: 15px;">
+                        ❌ Invalid credentials. Please try again.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="text-align: center; padding: 30px; color: #94a3b8; font-size: 13px; border-top: 1px solid #e2e8f0; margin-top: auto;">
+            <div style="font-weight: 600; margin-bottom: 5px;">Manjeshwara Sub-District Kalotsava Portal</div>
+            <div>Designed and Developed by <span style="color: #64748b; font-weight: bold;">Harisha G</span>, HSST Kannada, SVVHSS Miyapadavu</div>
+        </footer>
+    </div>
+<!-- Change Password Modal -->
+    <div id="change-pwd-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 400px;">
+            <h3>Change Your Password</h3>
+            <p style="font-size: 13px; color: #666;">For security, please update your default password.</p>
+            <div class="form-group"><label>New Password:</label><input type="password" id="new-pwd"></div>
+            <div class="form-group"><label>Confirm Password:</label><input type="password" id="confirm-pwd"></div>
+            <div class="modal-actions">
+                <button id="btn-save-pwd" class="btn btn-primary">Update Password</button>
+                <button class="btn btn-close-modal" id="btn-cancel-pwd" style="background:#cbd5e1; color:#333;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- School Manage Modal (Admin) -->
+    <div id="manage-schools-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 800px;">
+            <h3>Manage Registered Schools</h3>
+            <div style="display: flex; gap: 10px; margin-bottom: 15px; align-items: flex-end;">
+                <div class="form-group" style="flex: 1; margin:0;"><label>School Code</label><input type="text" id="add-sch-code"></div>
+                <div class="form-group" style="flex: 2; margin:0;"><label>School Name</label><input type="text" id="add-sch-name"></div>
+                <button id="btn-add-school" class="btn btn-success" style="height: 38px;">+ Add School</button>
+            </div>
+            <div class="table-responsive" style="max-height: 400px;">
+                <table class="users-table">
+                    <thead><tr><th>Code</th><th>School Name</th><th>Status</th><th>Actions</th></tr></thead>
+                    <tbody id="schools-table-body"></tbody>
+                </table>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-close-modal" style="background:#cbd5e1; color:#333;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="school-view" style="display: none; background-color: var(--background); min-height: 100vh; padding-bottom: 60px;">
+        <header>
+            <div>
+                <div style="font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px;">School Administration Dashboard</div>
+                <h1 style="margin: 0; font-size: 24px; color: var(--text-main); font-weight: 800; letter-spacing: -0.5px;" id="school-dash-name"></h1>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                <div style="background: #f1f5f9; padding: 8px 16px; border-radius: 100px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Code</span>
+                    <span id="school-dash-code" style="color: var(--primary); font-weight: 800; font-size: 15px;"></span>
+                </div>
+                <button id="btn-school-mgr-report" class="btn btn-success">📥 Team Report</button>
+                <button id="btn-school-pwd" class="btn" style="background:#475569;">🔑 Password</button>
+                <button id="btn-school-logout" class="logout-btn">Logout</button>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+            <!-- Profile -->
+            <div class="section-card" id="school-profile-section">
+                <h3 class="section-title"><span style="font-size:22px;">🏫</span> 1. Institutional Profile Registration</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-bottom: 25px;">
+                    <div class="input-group" style="margin:0;"><label>Head of Institution Name</label><input type="text" id="prof-head-name" placeholder="Enter Full Name"></div>
+                    <div class="input-group" style="margin:0;"><label>Head Mobile Number</label><input type="text" id="prof-head-mob" placeholder="10-digit Mobile"></div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin: 25px 0 15px 0;">
+                    <h4 style="margin: 0; color: #475569; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Team Managers (Up to 5)</h4>
+                    <button type="button" id="btn-add-mgr-row" class="btn btn-success" style="padding: 6px 14px; font-size: 12px; background: var(--secondary);">+ Add Manager</button>
+                </div>
+                <div id="manager-container" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; background: #f8fafc; padding: 25px; border-radius: var(--radius-md); border: 1px solid #e2e8f0;">
+                    <div class="mgr-row" data-index="1" style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+                        <div class="input-group" style="margin:0;"><label>Manager 1 Name</label><input type="text" id="prof-mgr-name1" placeholder="Enter Full Name"></div>
+                        <div class="input-group" style="margin:0;"><label>Manager 1 Mobile</label><input type="text" id="prof-mgr-mob1" placeholder="10-digit Mobile"></div>
+                    </div>
+                    <div class="mgr-row" data-index="2" style="display: none; grid-template-columns: 1fr 1fr auto; gap: 25px; align-items: flex-end;">
+                        <div class="input-group" style="margin:0;"><label>Manager 2 Name</label><input type="text" id="prof-mgr-name2" placeholder="Enter Full Name"></div>
+                        <div class="input-group" style="margin:0;"><label>Manager 2 Mobile</label><input type="text" id="prof-mgr-mob2" placeholder="10-digit Mobile"></div>
+                        <button type="button" class="btn btn-danger" onclick="removeMgrRow(2)" style="height: 48px;">Remove</button>
+                    </div>
+                    <div class="mgr-row" data-index="3" style="display: none; grid-template-columns: 1fr 1fr auto; gap: 25px; align-items: flex-end;">
+                        <div class="input-group" style="margin:0;"><label>Manager 3 Name</label><input type="text" id="prof-mgr-name3" placeholder="Enter Full Name"></div>
+                        <div class="input-group" style="margin:0;"><label>Manager 3 Mobile</label><input type="text" id="prof-mgr-mob3" placeholder="10-digit Mobile"></div>
+                        <button type="button" class="btn btn-danger" onclick="removeMgrRow(3)" style="height: 48px;">Remove</button>
+                    </div>
+                    <div class="mgr-row" data-index="4" style="display: none; grid-template-columns: 1fr 1fr auto; gap: 25px; align-items: flex-end;">
+                        <div class="input-group" style="margin:0;"><label>Manager 4 Name</label><input type="text" id="prof-mgr-name4" placeholder="Enter Full Name"></div>
+                        <div class="input-group" style="margin:0;"><label>Manager 4 Mobile</label><input type="text" id="prof-mgr-mob4" placeholder="10-digit Mobile"></div>
+                        <button type="button" class="btn btn-danger" onclick="removeMgrRow(4)" style="height: 48px;">Remove</button>
+                    </div>
+                    <div class="mgr-row" data-index="5" style="display: none; grid-template-columns: 1fr 1fr auto; gap: 25px; align-items: flex-end;">
+                        <div class="input-group" style="margin:0;"><label>Manager 5 Name</label><input type="text" id="prof-mgr-name5" placeholder="Enter Full Name"></div>
+                        <div class="input-group" style="margin:0;"><label>Manager 5 Mobile</label><input type="text" id="prof-mgr-mob5" placeholder="10-digit Mobile"></div>
+                        <button type="button" class="btn btn-danger" onclick="removeMgrRow(5)" style="height: 48px;">Remove</button>
+                    </div>
+                </div>
+                
+                <div style="background: #f8fafc; padding: 25px; border-radius: var(--radius-md); border: 1px solid #e2e8f0;">
+                    <h4 style="margin: 0 0 20px 0; color: #475569; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Student Strength Distribution</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px;">
+                        <div class="input-group" style="margin:0;"><label>LP Section</label><input type="number" id="prof-lp" min="0" style="text-align:center;"></div>
+                        <div class="input-group" style="margin:0;"><label>UP Section</label><input type="number" id="prof-up" min="0" style="text-align:center;"></div>
+                        <div class="input-group" style="margin:0;"><label>HS Section</label><input type="number" id="prof-hs" min="0" style="text-align:center;"></div>
+                        <div class="input-group" style="margin:0;"><label>HSS Section</label><input type="number" id="prof-hss" min="0" style="text-align:center;"></div>
+                    </div>
+                </div>
+                
+                <div style="text-align: right; margin-top: 25px;">
+                    <button id="btn-save-profile" class="btn btn-primary" style="padding: 14px 30px; font-size: 15px;">💾 Save Profile Details</button>
+                </div>
+            </div>
+
+            <!-- Registration -->
+            <div class="section-card" id="school-registration-section">
+                <h3 class="section-title"><span style="font-size:22px;">📝</span> 2. Student Event Registration</h3>
+                
+                <div style="background: #fff7ed; color: #9a3412; padding: 15px 20px; border-left: 4px solid #f97316; border-radius: var(--radius-sm); margin-bottom: 30px; font-size: 14px; font-weight: 500;">
+                    <strong style="color: #c2410c;">IMPORTANT:</strong> Enter student details exactly as per official records. Maximum 3 events permitted per student. Only 1 participant per event allowed for your school. Modifications are strictly disabled post-submission.
+                </div>
+                
+                <div style="background: #f8fafc; padding: 30px; border-radius: var(--radius-md); border: 1px solid #cbd5e1; display: flex; flex-wrap: wrap; gap: 40px;">
+                    <div style="flex: 1 1 350px; display: flex; flex-direction: column; gap: 20px;">
+                        <div class="input-group" style="margin:0;"><label>Student Full Name</label><input type="text" id="reg-name" placeholder="Official Record Name"></div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="input-group" style="margin:0;">
+                                <label>Category</label>
+                                <select id="reg-category" style="font-weight:700;">
+                                    <option value="">- Select -</option>
+                                    <option value="LP">LP Section</option>
+                                    <option value="UP">UP Section</option>
+                                    <option value="HS">HS Section</option>
+                                    <option value="HSS">HSS Section</option>
+                                </select>
+                            </div>
+                            <div class="input-group" style="margin:0;"><label>Class</label><input type="text" id="reg-class" placeholder="e.g. 10"></div>
+                        </div>
+                        <div class="input-group" style="margin:0;"><label>Date of Birth</label><input type="date" id="reg-dob"></div>
+                    </div>
+                    
+                    <div style="flex: 1 1 350px; display: flex; flex-direction: column; gap: 20px;">
+                        <div class="input-group" style="margin:0;">
+                            <label>Event 1 (Primary Item Code)</label>
+                            <input type="text" id="reg-item1" class="item-code-input" placeholder="e.g. LP152" autocomplete="off" style="text-transform: uppercase; font-weight: 700; color: var(--primary);">
+                            <div id="preview-item1" style="font-size:12px; color:var(--secondary); font-weight:700; height:16px; margin-top:6px;"></div>
+                        </div>
+                        <div class="input-group" style="margin:0;">
+                            <label>Event 2 (Optional Item Code)</label>
+                            <input type="text" id="reg-item2" class="item-code-input" placeholder="Optional" autocomplete="off" style="text-transform: uppercase;">
+                            <div id="preview-item2" style="font-size:12px; color:var(--secondary); font-weight:700; height:16px; margin-top:6px;"></div>
+                        </div>
+                        <div class="input-group" style="margin:0;">
+                            <label>Event 3 (Optional Item Code)</label>
+                            <input type="text" id="reg-item3" class="item-code-input" placeholder="Optional" autocomplete="off" style="text-transform: uppercase;">
+                            <div id="preview-item3" style="font-size:12px; color:var(--secondary); font-weight:700; height:16px; margin-top:6px;"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="flex: 1 1 100%; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 25px;">
+                        <button id="btn-add-student-events" class="btn btn-success" style="padding: 14px 40px; font-size: 16px;">+ Add Student to Registry</button>
+                    </div>
+                </div>
+
+                <div class="table-responsive" style="margin-top: 30px;">
+                    <table style="margin: 0;">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Class</th>
+                                <th>DOB</th>
+                                <th>Reg No</th>
+                                <th>Item Code / Event</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="school-entries-body"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="section-card" id="school-confirm-section" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; background: #fffbeb; border-left: 6px solid #f59e0b;">
+                <div style="flex: 1 1 300px; color: #92400e;">
+                    <h3 style="margin: 0 0 8px 0; font-size: 18px; color: #b45309;">Ready for Final Submission?</h3>
+                    <p style="margin:0; font-size: 14px;">Please verify all records. By clicking confirm, you legally lock your school's entries. <b>No modifications post-submission.</b></p>
+                </div>
+                <button id="btn-school-confirm" class="btn btn-danger" style="padding: 16px 35px; font-size: 16px;">Final Submit & Lock</button>
+            </div>
+            
+            <div class="section-card" id="school-locked-msg" style="display: none; text-align: center; background: #f0fdf4; border-top: 6px solid #10b981;">
+                <div style="font-size: 45px; margin-bottom: 15px;">✅</div>
+                <h3 style="color: #166534; margin: 0 0 10px 0; font-size: 24px;">Registration Confirmed & Locked</h3>
+                <p style="margin: 0 auto 25px auto; color: #15803d; font-size: 15px; max-width: 600px;">Your institutional profile and student registration data have been securely transmitted to the Sub-District Administration.</p>
+                <button onclick="document.getElementById('btn-school-mgr-report').click()" class="btn btn-success" style="padding: 12px 25px;">📥 Download Official Team Report</button>
+            </div>
+        </div>
+    </div>
+<div id="app-view">
+        <header style="background: white;">
+            <div style="display:flex; flex-direction:column;">
+                <div style="font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px;">Sub-District Admin</div>
+                <h1 style="margin: 0; font-size: 24px; color: var(--text-main); font-weight: 800; letter-spacing: -0.5px;">Kalotsava Dashboard</h1>
+            </div>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <span id="user-badge" style="font-size: 14px; font-weight: bold; background: rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 4px;"></span>
+                <button id="btn-user-pwd" class="btn btn-warning" style="padding: 5px 10px; font-size:12px;">Change Password</button>
+                <button id="btn-logout" class="logout-btn">Logout</button>
+            </div>
+        </header>
+
+        <div class="admin-layout">
+            <!-- LEFT SIDEBAR -->
+            <aside class="admin-sidebar">
+                <!-- Data Entry -->
+                <details class="sidebar-dropdown" open>
+                    <summary>📌 Data Entry & Filters</summary>
+                    <div class="sidebar-dropdown-content">
+                        <div class="form-group" style="margin-bottom: 5px;">
+                            <label style="color: #64748b;">Select Competition Event:</label>
+                            <select id="item-filter" style="padding: 12px; font-weight: bold; color: #0f172a; border-color: #cbd5e1; background: #f8fafc; border-radius: 8px;"></select>
+                        </div>
+                        <button id="btn-manual-modal" class="btn btn-success req-perm-enter-marks" style="width: 100%; border-radius: 8px; padding: 12px;">+ Add Missing Student</button>
+                        <div id="auto-save-status" style="font-size: 12px; color: #059669; font-weight: 800; background: #dcfce7; padding: 8px 12px; border-radius: 8px; text-align: center; border: 1px solid #bbf7d0;">✓ Auto-Save: Active</div>
+                    </div>
+                </details>
+
+                <!-- Reports -->
+                <details class="sidebar-dropdown">
+                    <summary>📑 Reports & Downloads</summary>
+                    <div class="sidebar-dropdown-content">
+                        <h4 style="margin:0; color:#1e293b; font-size: 12px; text-transform:uppercase; letter-spacing:0.5px;">Blank Sheets</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                            <button id="btn-dl-call-sheet" class="btn req-perm-dl-pub" style="background:#6366f1; font-size: 12px; padding: 10px; border-radius: 6px;">Call Sheet</button>
+                            <button id="btn-dl-score-sheet" class="btn req-perm-dl-pub" style="background:#8b5cf6; font-size: 12px; padding: 10px; border-radius: 6px;">Score Sheet</button>
+                            <button id="btn-dl-tab-sheet" class="btn req-perm-dl-pub" style="background:#d946ef; font-size: 12px; padding: 10px; grid-column: span 2; border-radius: 6px;">Tabulation Sheet</button>
+                        </div>
+                        
+                        <h4 style="margin:10px 0 0 0; color:#1e293b; font-size: 12px; text-transform:uppercase; letter-spacing:0.5px; border-top:1px solid #e2e8f0; padding-top:15px;">Post-Event</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <button id="btn-dl-pub" class="btn req-perm-dl-pub" style="background:#0284c7; color:white; width: 100%; border-radius: 6px;">Public Result</button>
+                            <button id="btn-dl-conf" class="btn btn-warning req-perm-dl-conf" style="width: 100%; color:#fff; border-radius: 6px;">Confidential Result</button>
+                            <button id="btn-dl-cert" class="btn req-perm-dl-cert" style="background:#db2777; color:white; width: 100%; border-radius: 6px;">Certificates</button>
+                            <button id="btn-cards-modal" class="btn req-perm-dl-cards" style="background:#14b8a6; color:#fff; width: 100%; border-radius: 6px;">Participant Cards</button>
+                        </div>
+                        
+                        <h4 style="margin:10px 0 0 0; color:#1e293b; font-size: 12px; text-transform:uppercase; letter-spacing:0.5px; border-top:1px solid #e2e8f0; padding-top:15px;">Global Reports</h4>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <button id="btn-reports-modal" class="btn req-perm-dl-points" style="background:#ea580c; color:white; width: 100%; border-radius: 6px;">School Points</button>
+                            <button id="btn-dl-manager" class="btn req-perm-dl-manager" style="background:#ca8a04; color:#fff; width: 100%; border-radius: 6px;">Manager Report</button>
+                            <button id="btn-dl-schedule" class="btn admin-only" style="background:#8b5cf6; color:#fff; width: 100%; border-radius: 6px;">📅 Stage Schedule</button>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Admin -->
+                <details class="sidebar-dropdown admin-only">
+                    <summary>⚙️ System Admin</summary>
+                    <div class="sidebar-dropdown-content">
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <button id="btn-users-modal" class="btn btn-primary" style="width: 100%; border-radius: 6px;">Manage Users</button>
+                            <button id="btn-schools-modal" class="btn btn-info" style="background:#0284c7; width: 100%; border-radius: 6px;">Manage Schools</button>
+                            <button id="btn-settings-modal" class="btn" style="background:#4f46e5; color:white; width: 100%; border-radius: 6px;">Cert Coordinates</button>
+                            <button id="btn-fest-settings-modal" class="btn" style="background:#f59e0b; color:#fff; width: 100%; border-radius: 6px;">📅 Fest & Stages</button>
+                            <button id="btn-reset-school" class="btn" style="background:#dc2626; color:#fff; width: 100%; border-radius: 6px;">⚠️ Reset School</button>
+                        </div>
+                        <h4 style="margin:10px 0 0 0; color:#1e293b; font-size: 12px; text-transform:uppercase; letter-spacing:0.5px; border-top:1px solid #e2e8f0; padding-top:15px;">Database</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                            <button id="btn-export-data" class="btn" style="background:#0d9488; color:white; width: 100%; font-size:12px; padding:10px; border-radius: 6px;">Backup DB</button>
+                            <label for="btn-import-data" class="btn" style="cursor: pointer; background: #d97706; color: #fff; margin:0; width: 100%; text-align:center; font-size:12px; padding:10px; display:flex; align-items:center; justify-content:center; border-radius: 6px;">Restore DB</label>
+                            <input type="file" id="btn-import-data" accept=".json" style="display: none;">
+                        </div>
+                    </div>
+                </details>
+            </aside>
+            
+            <!-- MAIN TABLE AREA -->
+            <main class="admin-main">
+                <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sl No</th>
+                                                        <th>Reg No</th>
+                            <th>Code No</th>
+                            <th>Judge 1</th>
+                            <th>Judge 2</th>
+                            <th>Judge 3</th>
+                            <th>Total</th>
+                            <th>Grade</th>
+                            <th>Point</th>
+                            <th>Rank</th>
+                            <th class="admin-only">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body"></tbody>
+                </table>
+            </div>
+            
+            <!-- Summary Stats -->
+            <div id="mark-summary" style="display: flex; gap: 20px; justify-content: space-between; flex-wrap: wrap; background: #fff; padding: 15px 25px; border-radius: 8px; border: 1px solid var(--border); box-shadow: var(--shadow-soft); margin-bottom: 20px;">
+                <span style="color: var(--text-main); font-weight: 700; font-size: 15px;">Total Participants: <span id="sum-total" style="color:var(--primary); font-size: 18px;">0</span></span>
+                <span style="color: var(--secondary); font-weight: 700; font-size: 15px;">A Grade: <span id="sum-a" style="font-size: 18px;">0</span></span>
+                <span style="color: #3b82f6; font-weight: 700; font-size: 15px;">B Grade: <span id="sum-b" style="font-size: 18px;">0</span></span>
+                <span style="color: #f59e0b; font-weight: 700; font-size: 15px;">C Grade: <span id="sum-c" style="font-size: 18px;">0</span></span>
+                <span style="color: var(--danger); font-weight: 700; font-size: 15px;">Absentees: <span id="sum-abs" style="font-size: 18px;">0</span></span>
+            </div>
+
+                <div style="display: flex; justify-content: flex-end; padding-top: 10px; margin-bottom: 20px;" class="req-perm-enter-marks">
+                <button id="btn-save-confirm" class="btn btn-success admin-only" style="background:#2ecc71; padding: 12px 25px; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">💾 Save & Confirm Marks</button>
+            </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Users Management Modal -->
+    <div id="users-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 600px;">
+            <h3>User & Permissions Management</h3>
+            <table class="users-table">
+                <thead><tr><th>Username</th><th>Role</th><th>Access</th><th>Action</th></tr></thead>
+                <tbody id="users-table-body"></tbody>
+            </table>
+            <h4 style="margin-top: 20px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Add New User</h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;">
+                <div class="form-group" style="flex: 1; min-width: 140px; margin-bottom: 0;"><label>Username:</label><input type="text" id="u-name"></div>
+                <div class="form-group" style="flex: 1; min-width: 140px; margin-bottom: 0;"><label>Password:</label><input type="password" id="u-pass"></div>
+                <div class="form-group" style="flex: 1; min-width: 140px; margin-bottom: 0;">
+                    <label>Role:</label>
+                    <select id="u-role">
+                        <option value="judge">Judge (Data Entry Only)</option>
+                        <option value="admin">Admin (Full Access)</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex: 1 1 100%; margin-top: 10px; margin-bottom: 0;">
+                    <label>Judge Permissions (Tick allowed actions):</label>
+                    <div id="u-access-checkboxes" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; border: 1px solid #cbd5e1; padding: 10px; border-radius: 6px; font-size: 12px; background: #f8fafc;">
+                        <label><input type="checkbox" class="perm-chk" value="enter_marks" checked> Enter Marks</label>
+                        <label><input type="checkbox" class="perm-chk" value="dl_manager" checked> Download Manager Report</label>
+                        <label><input type="checkbox" class="perm-chk" value="dl_conf" checked> Download Confidential Report</label>
+                        <label><input type="checkbox" class="perm-chk" value="dl_pub" checked> Download Public Result</label>
+                        <label><input type="checkbox" class="perm-chk" value="dl_cert" checked> Download Certificate</label>
+                        <label><input type="checkbox" class="perm-chk" value="dl_cards" checked> Download Participant Cards</label>
+                        <label><input type="checkbox" class="perm-chk" value="dl_points" checked> Download Overall Points</label>
+                    </div>
+                </div>
+            </div>
+            <button id="btn-add-user" class="btn btn-success" style="margin-top: 12px; width: 100%;">Create User</button>
+            
+            <div class="modal-actions">
+                <button class="btn btn-close-modal" style="background:#cbd5e1; color:#333;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manual Entry Modal -->
+    <div id="manual-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 420px;">
+            <h3>Add Missing Student</h3>
+            <div class="form-group"><label>Item Name:</label><input type="text" id="m-item"></div>
+            <div class="form-group"><label>Sl No:</label><input type="text" id="m-sl"></div>
+                        <div class="form-group"><label>Student Name:</label><input type="text" id="m-name"></div>
+            <div class="form-group"><label>Class:</label><input type="text" id="m-class"></div>
+            <div class="form-group"><label>School Name:</label><input type="text" id="m-school"></div>
+            <div class="modal-actions">
+                <button class="btn btn-close-modal" style="background:#cbd5e1; color:#333;">Cancel</button>
+                <button id="btn-save-manual" class="btn btn-primary">Save Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Participant Cards Modal -->
+    <div id="cards-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 500px;">
+            <h3>Download Participant Cards</h3>
+            <div class="form-group">
+                <label>Select School:</label>
+                <select id="card-school-filter">
+                    <option value="ALL">All Schools (Entire Fest)</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button id="btn-dl-cards-pdf" class="btn btn-warning">📥 Download Cards PDF</button>
+                <button class="btn btn-close-modal" style="background:#cbd5e1; color:#333;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports Modal -->
+    <div id="reports-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 720px;">
+            <h3>School Points & Championship Reports</h3>
+            <div class="form-group">
+                <label>Select Report View:</label>
+                <select id="report-view-select">
+                    <option value="overall">Overall Championship Report</option>
+                    <option value="LP">Category: LP School Points</option>
+                    <option value="UP">Category: UP School Points</option>
+                    <option value="HS">Category: HS School Points</option>
+                    <option value="HSS">Category: HSS School Points</option>
+                </select>
+            </div>
+            <div id="report-content-area" style="max-height: 50vh; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 4px; background: #fafafa; margin-top: 15px;"></div>
+            <div class="modal-actions">
+                <button id="btn-dl-report-pdf" class="btn btn-warning">📥 Download Report PDF</button>
+                <button class="btn btn-close-modal" style="background:#cbd5e1; color:#333;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Fest & Stages Settings Modal -->
+    <div id="fest-settings-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 800px; max-height: 90vh;">
+            <h3>📅 Fest Configuration & Stage Allotment</h3>
+            
+            <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+                <div class="form-group" style="flex: 2; margin:0;"><label>Kalotsava Venue Name</label><input type="text" id="fest-venue" placeholder="e.g. SVVHSS MIYAPADAVU"></div>
+                <div class="form-group" style="flex: 1; margin:0;"><label>Dates</label><input type="text" id="fest-dates" placeholder="e.g. 05 Nov - 13 Nov"></div>
+            </div>
+            
+            <hr style="border:0; border-top:1px solid #e2e8f0; margin:15px 0;">
+            <h4 style="margin:0 0 10px 0;">Define Stages</h4>
+            <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-end;">
+                <div class="form-group" style="flex: 1; margin:0;"><input type="text" id="add-stage-name" placeholder="e.g. Stage 1 - Main Hall"></div>
+                <button id="btn-add-stage" class="btn btn-success" style="height: 38px;">+ Add Stage</button>
+            </div>
+            <div id="stages-list" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;"></div>
+            
+            <hr style="border:0; border-top:1px solid #e2e8f0; margin:15px 0;">
+            <h4 style="margin:0 0 10px 0;">Stage Allotment (Assign Events to Stages)</h4>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 15px; align-items: flex-end; flex-wrap: wrap; background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <div class="form-group" style="flex: 2; min-width: 200px; margin:0;">
+                    <label style="font-size:11px;">Event Item</label>
+                    <select id="sel-allot-item" style="width: 100%; padding: 8px; font-size: 13px;"></select>
+                </div>
+                <div class="form-group" style="flex: 1; min-width: 120px; margin:0;">
+                    <label style="font-size:11px;">Stage</label>
+                    <select id="sel-allot-stage" style="width: 100%; padding: 8px; font-size: 13px;"></select>
+                </div>
+                <div class="form-group" style="flex: 1; min-width: 110px; margin:0;">
+                    <label style="font-size:11px;">Date</label>
+                    <input type="date" id="inp-allot-date" style="width: 100%; padding: 8px; font-size: 13px;">
+                </div>
+                <div class="form-group" style="flex: 1; min-width: 100px; margin:0;">
+                    <label style="font-size:11px;">Time</label>
+                    <input type="time" id="inp-allot-time" style="width: 100%; padding: 8px; font-size: 13px;">
+                </div>
+                <button id="btn-add-allotment" class="btn btn-info" style="height: 37px; padding: 0 15px; background: #0284c7;">Assign</button>
+            </div>
+
+            <div class="table-responsive" style="max-height: 220px;">
+                <table class="users-table">
+                    <thead><tr><th>Event Code & Name</th><th>Assigned Stage</th><th>Date</th><th>Time</th><th>Action</th></tr></thead>
+                    <tbody id="allotment-table-body"></tbody>
+                </table>
+            </div>
+            
+            <div class="modal-actions">
+                <button id="btn-save-fest-settings" class="btn btn-primary">Save Fest Settings</button>
+                <button class="btn btn-close-modal" style="background:#cbd5e1; color:#333;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Adjustments Modal -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Coordinate Certificate Settings</h3>
+            <p style="font-size: 13px; color: #666;">Set exact X (Left) and Y (Top) coordinates in millimeters (mm) and Font Size (pt) for each field.</p>
+            <table class="config-table">
+                <thead><tr><th>Field</th><th>X (mm)</th><th>Y (mm)</th><th>Size (pt)</th><th>Global Value</th></tr></thead>
+                <tbody id="config-tbody"></tbody>
+            </table>
+            <div class="modal-actions">
+                <button class="btn btn-close-modal" style="background:#cbd5e1; color:#333;">Cancel</button>
+                <button id="btn-save-settings" class="btn btn-primary">Save Coordinates</button>
+            </div>
+        </div>
+    </div>
+
+    
+
+    
+
+
+    <script>
+                const EVENT_DICTIONARY = {
+            "LP152": "ABHINAYA GEETE LP",
+            "LP153": "OGATUGALU LP",
+            "LP154": "KATHE HELUVUDU LP",
+            "UP353": "KATHA RACHANE UP",
+            "UP354": "KAVITHA RACHANE UP",
+            "HS660": "KATHA RACHANE HS",
+            "HS661": "PRABANDHA RACHANE HS",
+            "HSS1051": "BHASHANA HSS",
+            "HSS1052": "KATHA RACHANE HSS",
+            "HSS1053": "KAVITHA RACHANE HSS",
+            "HSS1054": "PRABANDHA RACHANE HSS"
+        };
+
+        const eligibleSchools = [
+            { code: "11007", name: "S. A.T. H. S. Manjeshwar" }, { code: "11008", name: "Udaya E. M. H. S. S. Udayanagar, Manjeshwar" },
+            { code: "11009", name: "G. V. H. S. S. Kunjathur" }, { code: "11010", name: "S. V. V. H. S. Miyapadavu" },
+            { code: "11011", name: "S. V. V. H. S. Kodlamogaru" }, { code: "11012", name: "K.V.S.M. H.S. Kurudapadavu" },
+            { code: "11013", name: "G. H. S. S. Mangalpady" }, { code: "11014", name: "G. H. S. S. Shiriya" },
+            { code: "11015", name: "G. H. S. S. Uppala" }, { code: "11016", name: "G. H. S. S. Bangra Manjeshwar" },
+            { code: "11017", name: "G. H. S. Paivalike" }, { code: "11018", name: "G. H.S. S. Paivalike Nagar" },
+            { code: "11019", name: "G.H.S.S. Bekur" }, { code: "11051", name: "S. D. P. H. S. Dharmathadka" },
+            { code: "11052", name: "G. H. S. S. Heroor Meepry" }, { code: "11059", name: "Sirajul Huda E. M. H. S. Udyawar" },
+            { code: "11067", name: "GHS KADAMBAR" }, { code: "11068", name: "GHS MOODAMBAIL" },
+            { code: "11071", name: "GHS UDAYAWAR" }, { code: "11077", name: "MGLC CHINNAMOGARU" },
+            { code: "11078", name: "MGLC SHIRIYA" }, { code: "11079", name: "MGLC ADKA" },
+            { code: "11080", name: "MGLC MADIMOGARU, Charla" }, { code: "11081", name: "MGLC KADOOR" },
+            { code: "11082", name: "MGLC KEDUMBADY" }, { code: "11083", name: "MGLC BORKALA" },
+            { code: "11084", name: "MGLC PAVOOR POYYA" }, { code: "11085", name: "MGLC SULYAME" },
+            { code: "11086", name: "MGLC POYYATHABAIL" }, { code: "11088", name: "MANAVATTY BEEVI E.M.S DHARMANAGAR" },
+            { code: "11092", name: "SARVODAYA ENGLISH SCHOOL, KODIBAIL UPPALA" }, { code: "11093", name: "MALJA-UL ISLAM ENGLISH MEDIUM SCHOOL, PACHAMBALA" },
+            { code: "11201", name: "G. B. L. P. S. Arikady General" }, { code: "11202", name: "G. B. L. P. S. Bombrana" },
+            { code: "11203", name: "G. B. L. P. S Heroor" }, { code: "11204", name: "G. B. L. P. S. Mangalpady" },
+            { code: "11205", name: "G. B. L. P. S. Ujar Uluvar" }, { code: "11206", name: "G. F. L. P. S. Kumbla" },
+            { code: "11207", name: "G. H. W. L. P. S. Mangalpady" }, { code: "11208", name: "G. L. P. S. Badaje" },
+            { code: "11209", name: "G. L. P. S. Hosabettu" }, { code: "11210", name: "G. L. P. S. Kanwathirtha" },
+            { code: "11211", name: "G. L. P. S. Kayarkatte" }, { code: "11212", name: "G. L. P. S. Kidoor" },
+            { code: "11213", name: "G. L. P. S Kuloor" }, { code: "11214", name: "G. L. P. S. Kunjathur" },
+            { code: "11215", name: "G. L. P. S Majibail" }, { code: "11216", name: "G. L. P. S. Moosodi" },
+            { code: "11217", name: "G. L. P. S. Mulinja" }, { code: "11218", name: "G. L. P. S. Pathur" },
+            { code: "11219", name: "G. L. P. S. Thalekala" }, { code: "11220", name: "G. L. P. S. Udyavara" },
+            { code: "11221", name: "G. L. P. S. Vamanjoor" }, { code: "11222", name: "G. M. L. P. S. Arikady" },
+            { code: "11223", name: "G. M. L. P. S. Udyavara Thota" }, { code: "11224", name: "Avala A. L. P. S. Bayar" },
+            { code: "11225", name: "A. L. P. S. Badoor Padavu" }, { code: "11226", name: "A. L. P. S. Ichilangod General" },
+            { code: "11227", name: "A. L. P. S. Ichilangod Islamiya" }, { code: "11228", name: "A. L. P. S. Kandal" },
+            { code: "11229", name: "A. L. P. S Kudal Merkala" }, { code: "11230", name: "A. L. P. S. Udyawar Bhagavathi" },
+            { code: "11231", name: "A. L. P. S. Vorkadi Kapiri" }, { code: "11232", name: "B. P. P. A. L. P. S. Permude" },
+            { code: "11233", name: "M. I. A. L. P. S. Challangayam" }, { code: "11234", name: "N. A. L. P. S. Kodibail" },
+            { code: "11235", name: "S. A. T. L. P. S. Manjeshwar" }, { code: "11236", name: "S. N. A. L. P. S. Koliyoor" },
+            { code: "11237", name: "S. P. A. L. P. S. Bayar" }, { code: "11238", name: "S. R. A. L. P. S. Kayyar" },
+            { code: "11239", name: "S. S. A. L. P. S. Kaniyala" }, { code: "11240", name: "S. S. A. L. P. S. Mudoor Thoke" },
+            { code: "11241", name: "S. V. A. L. P. S. Beripadavu" }, { code: "11242", name: "S. V. B. A. L. P. S. Bajalkaria" },
+            { code: "11243", name: "V. A. L. P. S. Pavoor" }, { code: "11244", name: "V. V. A. L. P. S. Thottethody" },
+            { code: "11245", name: "AL SAQAF ENGLISH MEDIUM SCHOOL" }, { code: "11246", name: "Posoat. Jamath. E. M. S. Manjeshwar" },
+            { code: "11247", name: "G. W. L. P. S. Manjeshwar" }, { code: "11248", name: "A. L. P. S. Bayar Perodi" },
+            { code: "11249", name: "Attegoli. A. L. P. S. Kayyar" }, { code: "11250", name: "M. A. L. P. S. Kunjathur" },
+            { code: "11252", name: "G. H. U. P. S. Kurchipalla" }, { code: "11254", name: "A. U. P. S. Anekal" },
+            { code: "11255", name: "A. J. I. A. U. P. S. Uppala" }, { code: "11256", name: "A. U. P. S. Bakrabail" },
+            { code: "11257", name: "A. U. P. S. Dharmathadka" }, { code: "11258", name: "A. U. P. S. Kurudapadavu" },
+            { code: "11259", name: "D. B. A. U. P. S. Kayyar" }, { code: "11260", name: "Heddari. A. U. P. S. Bayar" },
+            { code: "11261", name: "Hindu. A. U. P. S. Chippar" }, { code: "11262", name: "S. D. P. A. U. P. S. Sajankila" },
+            { code: "11263", name: "S. R. A. U. P. S. Kubanoor" }, { code: "11264", name: "S. S. A. U. P. S. Chevar" },
+            { code: "11265", name: "S. S. B. A. U. P. S. Aila" }, { code: "11266", name: "St. Joseph's A. U. P. S. Kaliyoor" },
+            { code: "11267", name: "S. V. V. A. U. P. S. Kodlamogaru" }, { code: "11268", name: "V. A. U. P. S. Miyapadavu" },
+            { code: "11269", name: "Infant. Jesus. E. M. S. Manjeshwar" }, { code: "11270", name: "M. E. S. U. P. S. Muttam" },
+            { code: "11272", name: "K. M. A. U. P. S. Arikady" }, { code: "11273", name: "FATHIMA E.M.SCHOOL MEEYAPADAVU, KASARAGOD" },
+            { code: "11274", name: "BALIYUR E.M.SCHOOL BALIYUR, KASARAGOD" }, { code: "11275", name: "AL BISHARA E.M.SCHOOL GUVEDA PADAPPU, KASARAGOD" },
+            { code: "11276", name: "KAMIL E.M.SCHOOL KOKKECHAAL, KASARAGOD" }, { code: "11283", name: "Thahani English Medium School" },
+            { code: "11286", name: "AJI EMS Naya Bazar" }, { code: "11295", name: "Mujamman Public School, Bayar" },
+            { code: "11296", name: "Manimunda English Medium School, Uppala" }, { code: "11297", name: "CHINMAYA VIDYALAYA" },
+            { code: "11298", name: "SA-ADIYA ENG MEDIUM SR SEC SCHOOL" }, { code: "11299", name: "Prashanthi Vidhya Kendra" },
+            { code: "11515", name: "SHIHAB ENGLISH MEDIUM SCHOOL" }, { code: "11544", name: "SHREE BHAGAVATHI ENGLISH MEDIUM SCHOOL" },
+            { code: "11547", name: "ST MARY'S ENGLISH MEDIUM SCHOOL" }, { code: "11600", name: "MGLC Kedumbadi" },
+            { code: "11601", name: "Sadguru Shri Nithyananda Vidyapeeta Kondevoor Uppala" }, { code: "11602", name: "Don Bosco English Medium School" },
+            { code: "11603", name: "Malhar English School, Bejjangala" }, { code: "11604", name: "Delta Central School Papila Road Ediya" },
+            { code: "11605", name: "Fatima English Medium School Miyapadavu" }, { code: "11606", name: "Al Madeena English Medium School" },
+            { code: "11607", name: "Kunnil English Medium School K JM Road, Manjeshwar" }, { code: "11608", name: "Navajeevana Special School" },
+            { code: "11609", name: "SRI BHAGAVATHI ENGLISH MEDIUM SCHOOL" }, { code: "43492", name: "PRASHANTHI VIDYA KENDRA" },
+            { code: "99940", name: "Sampoorna Test School Kasaragod" }
+        ];
+
+        let entries = [];
+        let systemUsers = [];
+        let systemSchools = [];
+        let currentUser = null; 
+        
+        let schoolDrafts = []; 
+        let festConfig = { venue: "Manjeshwara Sub-District Kalotsava", dates: "", stages: [], allotments: {} };
+        let certConfig = { name: {x:85,y:100,s:15,v:""}, class: {x:85,y:108,s:14,v:""}, school: {x:85,y:116,s:14,v:""}, category: {x:85,y:123,s:14,v:""}, item: {x:85,y:130,s:14,v:""}, grade: {x:85,y:138,s:14,v:""}, date: {x:25,y:166,s:11,v:"13.11.2026"}, place: {x:25,y:160,s:11,v:"MIYAPADAVU"} };
+
+        
+        
+        const API_URL = "https://script.google.com/macros/s/AKfycbxhY9si03B5mxHqafZtb3aJ0BXARd7bsC8hE_mUk7Pp_SlwnWkLT8HqswSOzuFK5ygy/exec";
+
+        async function callApi(payload) {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify(payload)
+            });
+            return await response.json();
+        }
+
+        async function loadOnlineData() {
+            try {
+                const [entriesRes, schoolsRes, usersRes] = await Promise.all([
+                    callApi({ action: "getData", sheet: "Entries" }),
+                    callApi({ action: "getData", sheet: "Schools" }),
+                    callApi({ action: "getData", sheet: "Users" })
+                ]);
+
+                if (entriesRes.status === "success" && Array.isArray(entriesRes.data)) {
+                    entries = entriesRes.data;
+                }
+
+                if (schoolsRes.status === "success" && schoolsRes.data.length > 0) {
+                    systemSchools = schoolsRes.data.map(s => ({
+                        ...s,
+                        code: String(s.code),
+                        is_confirmed: s.is_confirmed === true || s.is_confirmed === "TRUE",
+                        profile: typeof s.profile === "string" && s.profile ? JSON.parse(s.profile) : {}
+                    }));
+                } else {
+                    systemSchools = eligibleSchools.map(s => ({
+                        code: s.code, name: s.name, password: "password", is_confirmed: false,
+                        profile: { head_name:"", head_mobile:"", manager_name1:"", manager_mob1:"", manager_name2:"", manager_mob2:"", manager_name3:"", manager_mob3:"", manager_name4:"", manager_mob4:"", manager_name5:"", manager_mob5:"", lp:0, up:0, hs:0, hss:0 }
+                    }));
+                    saveSchools();
+                }
+
+                if (usersRes.status === "success" && usersRes.data.length > 0) {
+                    systemUsers = usersRes.data.map(u => ({
+                        ...u,
+                        allowed_access: typeof u.allowed_access === "string" && u.allowed_access ? JSON.parse(u.allowed_access) : []
+                    }));
+                } else {
+                    systemUsers = [{
+                        id: 'admin1', username: 'admin', password: 'password', role: 'admin',
+                        allowed_access: ['enter_marks', 'dl_manager', 'dl_conf', 'dl_pub', 'dl_cert', 'dl_cards', 'dl_points']
+                    }];
+                    saveUsers();
+                }
+            } catch (err) {
+                console.error("Failed to load online data:", err);
+                alert("Could not connect to the online database. Check your internet connection or API URL.");
+            }
+
+            const savedFest = localStorage.getItem('kalotsava_fest_config_v1');
+            if (savedFest) festConfig = JSON.parse(savedFest);
+            updateBanner();
+
+            const savedConfig = localStorage.getItem('kalotsava_cert_config_v2');
+            if (savedConfig) certConfig = JSON.parse(savedConfig);
+        }
+
+        async function saveEntries() {
+            try {
+                await callApi({ action: "saveData", sheet: "Entries", items: entries });
+            } catch (err) {
+                console.error("Error saving entries:", err);
+            }
+        }
+
+        async function saveSchools() {
+            try {
+                const serializedSchools = systemSchools.map(s => ({
+                    ...s,
+                    profile: JSON.stringify(s.profile || {})
+                }));
+                await callApi({ action: "saveData", sheet: "Schools", items: serializedSchools });
+            } catch (err) {
+                console.error("Error saving schools:", err);
+            }
+        }
+
+        async function saveUsers() {
+            try {
+                const serializedUsers = systemUsers.map(u => ({
+                    ...u,
+                    allowed_access: JSON.stringify(u.allowed_access || [])
+                }));
+                await callApi({ action: "saveData", sheet: "Users", items: serializedUsers });
+            } catch (err) {
+                console.error("Error saving users:", err);
+            }
+        }
+
+        async function initializeSystem() {
+            await loadOnlineData();
+            recalculateAllGrades();
+            updateDropdowns();
+        }
+
+        function updateDropdowns() {
+            const items = Object.values(EVENT_DICTIONARY).sort();
+            const schoolsList = [...new Set(systemSchools.map(e => e.name))].filter(Boolean).sort();
+            
+            function syncDropdown(elementId, newData, defaultOption = null) {
+                const sel = document.getElementById(elementId);
+                if (!sel) return;
+                const currentVal = sel.value;
+                const currentOptions = Array.from(sel.options).map(o => o.value);
+                const desiredOptions = defaultOption ? [defaultOption.val, ...newData] : newData;
+                if (JSON.stringify(currentOptions) !== JSON.stringify(desiredOptions)) {
+                    if (document.activeElement === sel) {
+                        sel.addEventListener('blur', function onBlur() {
+                            syncDropdown(elementId, newData, defaultOption);
+                            sel.removeEventListener('blur', onBlur);
+                        }, { once: true });
+                        return;
+                    }
+                    sel.innerHTML = defaultOption ? `<option value="${defaultOption.val}">${defaultOption.text}</option>` : '';
+                    newData.forEach(opt => {
+                        let el = document.createElement('option'); el.value = opt; el.textContent = opt;
+                        sel.appendChild(el);
+                    });
+                    if (desiredOptions.includes(currentVal)) sel.value = currentVal;
+                }
+            }
+            syncDropdown('item-filter', items);
+            syncDropdown('public-item-filter', items);
+            // syncDropdown('card-school-filter'...) handled directly on modal open now to prevent click skips.
+        }
+
+        // --- AUTH LOGIC ---
+        document.getElementById('btn-login-submit').addEventListener('click', () => {
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value.trim();
+            
+            let foundUser = systemUsers.find(x => x.username === u && x.password === p);
+            if (foundUser) {
+                currentUser = { ...foundUser, type: 'staff' };
+                document.getElementById('login-error').style.display = 'none';
+                document.getElementById('login-view').style.display = 'none';
+                document.getElementById('app-view').style.display = 'block';
+                document.getElementById('user-badge').innerText = `Role: ${currentUser.role.toUpperCase()}`;
+                
+                let perms = currentUser.role === 'admin' ? ['enter_marks', 'dl_manager', 'dl_conf', 'dl_pub', 'dl_cert', 'dl_cards', 'dl_points'] : (currentUser.allowed_access || []);
+                
+                document.querySelectorAll('.admin-only').forEach(el => el.style.display = currentUser.role === 'admin' ? '' : 'none');
+                document.querySelectorAll('.req-perm-enter-marks').forEach(el => el.style.display = perms.includes('enter_marks') ? '' : 'none');
+                document.querySelectorAll('.req-perm-dl-manager').forEach(el => el.style.display = perms.includes('dl_manager') ? '' : 'none');
+                document.querySelectorAll('.req-perm-dl-conf').forEach(el => el.style.display = perms.includes('dl_conf') ? '' : 'none');
+                document.querySelectorAll('.req-perm-dl-pub').forEach(el => el.style.display = perms.includes('dl_pub') ? '' : 'none');
+                document.querySelectorAll('.req-perm-dl-cert').forEach(el => el.style.display = perms.includes('dl_cert') ? '' : 'none');
+                document.querySelectorAll('.req-perm-dl-cards').forEach(el => el.style.display = perms.includes('dl_cards') ? '' : 'none');
+                document.querySelectorAll('.req-perm-dl-points').forEach(el => el.style.display = perms.includes('dl_points') ? '' : 'none');
+                
+                updateDropdowns();
+                renderTable();
+                
+                if (currentUser.password === 'password') {
+                    document.getElementById('btn-cancel-pwd').style.display = 'none';
+                    openModal('change-pwd-modal');
+                } else {
+                    document.getElementById('btn-cancel-pwd').style.display = 'inline-block';
+                }
+                return;
+            }
+            
+            let foundSchool = systemSchools.find(x => x.code === u && x.password === p);
+            if (foundSchool) {
+                currentUser = { ...foundSchool, type: 'school' };
+                document.getElementById('login-error').style.display = 'none';
+                document.getElementById('login-view').style.display = 'none';
+                document.getElementById('school-view').style.display = 'block';
+                document.getElementById('school-dash-name').innerText = currentUser.name;
+                document.getElementById('school-dash-code').innerText = currentUser.code;
+                
+                loadSchoolDashboard();
+                
+                if (currentUser.password === 'password') {
+                    document.getElementById('btn-cancel-pwd').style.display = 'none';
+                    openModal('change-pwd-modal');
+                } else {
+                    document.getElementById('btn-cancel-pwd').style.display = 'inline-block';
+                }
+                return;
+            }
+            
+            document.getElementById('login-error').style.display = 'block';
+        });
+
+        document.querySelectorAll('.logout-btn').forEach(btn => btn.addEventListener('click', () => {
+            currentUser = null;
+            document.getElementById('login-view').style.display = 'flex';
+            document.getElementById('app-view').style.display = 'none';
+            document.getElementById('school-view').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }));
+
+        // --- PASSWORD CHANGE LOGIC ---
+        document.getElementById('btn-user-pwd').addEventListener('click', () => openModal('change-pwd-modal'));
+        document.getElementById('btn-school-pwd').addEventListener('click', () => openModal('change-pwd-modal'));
+
+        document.getElementById('btn-save-pwd').addEventListener('click', () => {
+            let n = document.getElementById('new-pwd').value;
+            let c = document.getElementById('confirm-pwd').value;
+            if(!n || n.length < 6) return alert("Password must be at least 6 characters.");
+            if(n !== c) return alert("Passwords do not match.");
+            
+            if(currentUser.type === 'staff') {
+                let userRef = systemUsers.find(x => x.id === currentUser.id);
+                userRef.password = n; currentUser.password = n; saveUsers();
+            } else if (currentUser.type === 'school') {
+                let schRef = systemSchools.find(x => x.code === currentUser.code);
+                schRef.password = n; currentUser.password = n; saveSchools();
+            }
+            alert("Password updated successfully!");
+            document.getElementById('btn-cancel-pwd').style.display = 'inline-block';
+            closeModal(document.getElementById('change-pwd-modal'));
+        });
+
+        // --- MODAL HELPERS ---
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal(modalElement) {
+            modalElement.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        document.querySelectorAll('.btn-close-modal').forEach(btn => {
+            btn.addEventListener('click', (e) => closeModal(e.target.closest('.modal-overlay')));
+        });
+
+        // --- SCHOOL DASHBOARD LOGIC ---
+        function loadSchoolDashboard() {
+            let sch = systemSchools.find(s => s.code === currentUser.code);
+            schoolDrafts = entries.filter(e => e.school_code === currentUser.code);
+            
+            if(sch.profile) {
+                document.getElementById('prof-head-name').value = sch.profile.head_name || '';
+                document.getElementById('prof-head-mob').value = sch.profile.head_mobile || '';
+                for(let i=1; i<=5; i++) {
+                    let n = sch.profile[`manager_name${i}`] || '';
+                    let m = sch.profile[`manager_mob${i}`] || '';
+                    document.getElementById(`prof-mgr-name${i}`).value = n;
+                    document.getElementById(`prof-mgr-mob${i}`).value = m;
+                    let row = document.querySelector(`.mgr-row[data-index="${i}"]`);
+                    if (row) {
+                        if (i === 1 || n) row.style.display = 'grid';
+                        else row.style.display = 'none';
+                    }
+                }
+                document.getElementById('prof-lp').value = sch.profile.lp || 0;
+                document.getElementById('prof-up').value = sch.profile.up || 0;
+                document.getElementById('prof-hs').value = sch.profile.hs || 0;
+                document.getElementById('prof-hss').value = sch.profile.hss || 0;
+            }
+            
+            renderSchoolDrafts();
+            
+            if(sch.is_confirmed) {
+                document.getElementById('school-profile-section').style.opacity = '0.6';
+                document.getElementById('school-profile-section').style.pointerEvents = 'none';
+                document.getElementById('school-registration-section').style.opacity = '0.6';
+                document.getElementById('school-registration-section').style.pointerEvents = 'none';
+                document.getElementById('school-confirm-section').style.display = 'none';
+                document.getElementById('school-locked-msg').style.display = 'block';
+            } else {
+                document.getElementById('school-profile-section').style.opacity = '1';
+                document.getElementById('school-profile-section').style.pointerEvents = 'auto';
+                document.getElementById('school-registration-section').style.opacity = '1';
+                document.getElementById('school-registration-section').style.pointerEvents = 'auto';
+                document.getElementById('school-confirm-section').style.display = 'flex';
+                document.getElementById('school-locked-msg').style.display = 'none';
+            }
+        }
+
+        document.getElementById('btn-save-profile').addEventListener('click', () => {
+            let sch = systemSchools.find(s => s.code === currentUser.code);
+            sch.profile.head_name = document.getElementById('prof-head-name').value;
+            sch.profile.head_mobile = document.getElementById('prof-head-mob').value;
+            for(let i=1; i<=5; i++) {
+                sch.profile[`manager_name${i}`] = document.getElementById(`prof-mgr-name${i}`).value;
+                sch.profile[`manager_mob${i}`] = document.getElementById(`prof-mgr-mob${i}`).value;
+            }
+            sch.profile.lp = document.getElementById('prof-lp').value;
+            sch.profile.up = document.getElementById('prof-up').value;
+            sch.profile.hs = document.getElementById('prof-hs').value;
+            sch.profile.hss = document.getElementById('prof-hss').value;
+            saveSchools();
+            alert("Institutional Profile Saved Successfully.");
+        });
+
+        // Item code auto-preview
+        document.querySelectorAll('.item-code-input').forEach(inp => {
+            inp.addEventListener('input', (e) => {
+                let code = e.target.value.trim().toUpperCase();
+                let preview = document.getElementById('preview-' + e.target.id.split('-')[1]);
+                if (code === '') preview.innerText = '';
+                else if (EVENT_DICTIONARY[code]) preview.innerText = "✓ " + EVENT_DICTIONARY[code];
+                else preview.innerText = "❌ Invalid Code";
+            });
+        });
+
+        document.getElementById('btn-add-student-events').addEventListener('click', () => {
+            if(currentUser && currentUser.type === 'school') {
+                let sch = systemSchools.find(s => s.code === currentUser.code);
+                if(!sch.profile || !sch.profile.head_name || !sch.profile.manager_name1) {
+                    return alert("⚠️ You MUST completely fill and save the 'Institutional Profile Registration' (Head & Manager Details) before registering students.");
+                }
+            }
+
+            let cat = document.getElementById('reg-category').value;
+            let name = document.getElementById('reg-name').value.trim();
+            let cval = document.getElementById('reg-class').value.trim();
+            let dob = document.getElementById('reg-dob').value;
+            let itemCodes = [
+                document.getElementById('reg-item1').value.trim().toUpperCase(),
+                document.getElementById('reg-item2').value.trim().toUpperCase(),
+                document.getElementById('reg-item3').value.trim().toUpperCase()
+            ].filter(Boolean);
+            
+            if(!cat || !name || !cval || itemCodes.length === 0) return alert("Enter Student Name, Category, Class, and at least 1 Item Code.");
+            
+            for (let code of itemCodes) {
+                if (!code.startsWith(cat)) return alert(`Validation Error: You selected ${cat} category, but entered code ${code}. Only ${cat} codes are allowed for this student!`);
+            }
+            
+            // Auto-generate Reg No smoothly by section
+            let base = { 'LP': 10000, 'UP': 20000, 'HS': 30000, 'HSS': 40000 }[cat] || 10000;
+            let maxReg = base;
+            let allEvs = [...entries, ...schoolDrafts];
+            allEvs.forEach(e => { 
+                if (e.reg_no && !isNaN(e.reg_no)) {
+                    let r = parseInt(e.reg_no);
+                    if (r > base && r < base + 10000) maxReg = Math.max(maxReg, r);
+                }
+            });
+            let newRegNo = (maxReg + 1).toString();
+
+            // Validate all codes against dictionary
+            let mappedItems = [];
+            for (let code of itemCodes) {
+                let mappedName = EVENT_DICTIONARY[code];
+                if (!mappedName) return alert(`Invalid Item Code: ${code}. Please refer to the official code list.`);
+                mappedItems.push({ code: code, fullName: mappedName });
+            }
+            
+            let existingForStudent = schoolDrafts.filter(x => x.student_name.toLowerCase() === name.toLowerCase());
+            if (existingForStudent.length + mappedItems.length > 3) {
+                return alert(`This student is already in ${existingForStudent.length} events. Max 3 allowed.`);
+            }
+
+            for (let itemObj of mappedItems) {
+                if (schoolDrafts.some(x => x.item_name === itemObj.fullName)) {
+                    alert(`Error: Your school already has a student registered for ${itemObj.fullName}. Only one participant per event per school is allowed.`);
+                    continue;
+                }
+                
+                schoolDrafts.push({
+                    id: Math.random().toString(36).substr(2, 9),
+                    student_name: name,
+                    class_val: cval,
+                    dob: dob,
+                    item_name: itemObj.fullName,
+                    school_code: currentUser.code,
+                    school_name: currentUser.name,
+                                        reg_no: newRegNo, code_no: '', sl_no: 0, j1: '', j2: '', j3: '', total: 0, grade: '', point: 0, rank: ''
+                });
+            }
+            
+            document.getElementById('reg-name').value = '';
+            document.getElementById('reg-class').value = '';
+            document.getElementById('reg-dob').value = '';
+            document.getElementById('reg-category').value = '';
+            document.querySelectorAll('.item-code-input').forEach(i => i.value = '');
+            document.querySelectorAll('[id^=preview-item]').forEach(p => p.innerText = '');
+            renderSchoolDrafts();
+        });
+
+        function renderSchoolDrafts() {
+            const tbody = document.getElementById('school-entries-body');
+            tbody.innerHTML = '';
+            schoolDrafts.forEach(e => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="text-left">${e.student_name}</td>
+                    <td>${e.class_val}</td>
+                    <td>${e.dob || '-'}</td>
+                    <td>${e.reg_no || '-'}</td>
+                    <td><b>${e.item_name}</b></td>
+                    <td><button class="btn btn-danger action-del-draft" data-id="${e.id}">Delete</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+            }
+
+        document.getElementById('school-entries-body').addEventListener('click', (e) => {
+            if (e.target.classList.contains('action-del-draft')) {
+                let id = e.target.getAttribute('data-id');
+                schoolDrafts = schoolDrafts.filter(x => String(x.id) !== String(id));
+                renderSchoolDrafts();
+            }
+        });
+
+        document.getElementById('btn-school-confirm').addEventListener('click', () => {
+            if (schoolDrafts.length === 0) return alert("You have not registered any students.");
+            if (confirm("Are you sure you want to confirm? Information cannot be modified later.")) {
+                entries = entries.filter(e => e.school_code !== currentUser.code);
+                entries = entries.concat(schoolDrafts);
+                saveEntries();
+                updateDropdowns();
+                let sch = systemSchools.find(s => s.code === currentUser.code);
+                sch.is_confirmed = true;
+                saveSchools();
+                loadSchoolDashboard();
+            }
+        });
+
+        // --- ADMIN DASHBOARD DATA LOGIC ---
+                function updateSummary(filtered) {
+            let a = 0, b = 0, c = 0, abs = 0;
+            filtered.forEach((e, index) => {
+                if (e.grade === 'A') a++;
+                else if (e.grade === 'B') b++;
+                else if (e.grade === 'C') c++;
+                
+                // If total is 0 and grades are empty, count as absent
+                if ((!e.j1 && !e.j2 && !e.j3) || e.grade === '0' || e.grade === '') abs++;
+            });
+            
+            let summaryEl = document.getElementById('mark-summary');
+            if(summaryEl) {
+                document.getElementById('sum-total').innerText = filtered.length;
+                document.getElementById('sum-a').innerText = a;
+                document.getElementById('sum-b').innerText = b;
+                document.getElementById('sum-c').innerText = c;
+                document.getElementById('sum-abs').innerText = abs;
+            }
+        }
+        
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            const currentItem = document.getElementById('item-filter').value;
+            tbody.innerHTML = '';
+            
+            const filtered = entries.filter(e => e.item_name === currentItem);
+            filtered.sort((a, b) => (parseInt(a.sl_no) || 0) - (parseInt(b.sl_no) || 0));
+            filtered.forEach((e, index) => {
+                const tr = document.createElement('tr');
+                tr.setAttribute('data-id', e.id);
+                let cVal = e.class_val && e.class_val !== 'nan' ? String(e.class_val) : '';
+                if(cVal.endsWith('.0')) cVal = cVal.replace('.0', '');
+                
+                let perms = currentUser ? (currentUser.role === 'admin' ? ['enter_marks'] : (currentUser.allowed_access || [])) : [];
+                let isEditable = perms.includes('enter_marks') ? '' : 'readonly';
+                let actionHtml = '';
+                if(currentUser && currentUser.role === 'admin') {
+                    actionHtml = `
+                        <button type="button" class="btn btn-clear action-clear" data-id="${e.id}">Clr Mks</button>
+                        <button type="button" class="btn btn-danger action-delete" data-id="${e.id}">Del</button>
+                    `;
+                }
+
+                tr.innerHTML = `
+                    <td><strong>${e.sl_no || (index + 1)}</strong></td>
+                    <td>${e.reg_no || ''}</td>
+                    <td><input type="text" class="mark-input" style="width:45px;" data-id="${e.id}" data-field="code_no" value="${e.code_no || ''}" ${isEditable}></td>
+                    <td><input type="number" class="mark-input" style="width:45px;" data-id="${e.id}" data-field="j1" value="${e.j1}" max="100" min="0" ${isEditable}></td>
+                    <td><input type="number" class="mark-input" style="width:45px;" data-id="${e.id}" data-field="j2" value="${e.j2}" max="100" min="0" ${isEditable}></td>
+                    <td><input type="number" class="mark-input" style="width:45px;" data-id="${e.id}" data-field="j3" value="${e.j3}" max="100" min="0" ${isEditable}></td>
+                    <td class="computed total-cell">${e.total}</td>
+                    <td class="computed grade-cell">${e.grade}</td>
+                    <td class="computed point-cell">${e.point}</td>
+                    <td class="computed rank-cell">${e.rank || '-'}</td>
+                    <td class="action-btns admin-only" style="${currentUser && currentUser.role === 'admin' ? '' : 'display:none;'}">${actionHtml}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+            updateSummary(filtered);
+        }
+
+        document.getElementById('item-filter').addEventListener('change', renderTable);
+
+        function recalculateAllGrades() {
+            let changed = false;
+            entries.forEach(entry => {
+                if (entry.j1 !== '' || entry.j2 !== '' || entry.j3 !== '') {
+                    let val1 = parseFloat(entry.j1) || 0;
+                    let val2 = parseFloat(entry.j2) || 0;
+                    let val3 = parseFloat(entry.j3) || 0;
+                    let total = val1 + val2 + val3;
+                    let percentage = total / 3;
+                    let newGrade = '0'; let newPoint = 0;
+                    let isLP = entry.item_name && entry.item_name.includes('LP');
+                    if (isLP) {
+                        if (percentage >= 70) { newGrade = 'A'; newPoint = 5; } else if (percentage >= 60) { newGrade = 'B'; newPoint = 3; } else if (percentage >= 50) { newGrade = 'C'; newPoint = 1; }
+                    } else {
+                        if (percentage >= 80) { newGrade = 'A'; newPoint = 5; } else if (percentage >= 70) { newGrade = 'B'; newPoint = 3; } else if (percentage >= 60) { newGrade = 'C'; newPoint = 1; }
+                    }
+                    if (entry.grade !== newGrade || entry.point !== newPoint || entry.total !== total) {
+                        entry.total = total; entry.grade = newGrade; entry.point = newPoint; changed = true;
+                    }
+                }
+            });
+            if (changed) {
+                const allItems = [...new Set(entries.map(e => e.item_name))];
+                allItems.forEach(item => {
+                    let itemEntries = entries.filter(e => e.item_name === item && e.total > 0);
+                    itemEntries.sort((a, b) => b.total - a.total);
+                    let currentRank = 1;
+                    for(let i = 0; i < itemEntries.length; i++) {
+                        if (i > 0 && itemEntries[i].total === itemEntries[i-1].total) { itemEntries[i].rank = itemEntries[i-1].rank; } 
+                        else { itemEntries[i].rank = currentRank; }
+                        currentRank++;
+                    }
+                });
+                saveEntries();
+            }
+        }
+        
+        function calculateRanksInMemory() {
+            const currentItem = document.getElementById('item-filter').value;
+            let itemEntries = entries.filter(e => e.item_name === currentItem && e.total > 0);
+            itemEntries.sort((a, b) => b.total - a.total);
+            let currentRank = 1;
+            for(let i = 0; i < itemEntries.length; i++) {
+                if (i > 0 && itemEntries[i].total === itemEntries[i-1].total) { itemEntries[i].rank = itemEntries[i-1].rank; } 
+                else { itemEntries[i].rank = currentRank; }
+                currentRank++;
+            }
+            entries.filter(e => e.item_name === currentItem && e.total === 0).forEach(e => e.rank = '');
+        }
+
+        function processMarkChange(id, field, value) {
+            const entry = entries.find(e => String(e.id) === String(id));
+            if(!entry) return;
+            
+            if (field === 'code_no') {
+                entry.code_no = value;
+                saveEntries();
+                return; // Do not calculate totals for code number
+            }
+            
+            if(value !== '') { let num = parseFloat(value); if(num > 100) value = '100'; if(num < 0) value = '0'; }
+            entry[field] = value;
+            if(entry.j1 === '' && entry.j2 === '' && entry.j3 === '') {
+                entry.total = 0; entry.grade = ''; entry.point = 0;
+            } else {
+                let val1 = parseFloat(entry.j1) || 0; let val2 = parseFloat(entry.j2) || 0; let val3 = parseFloat(entry.j3) || 0;
+                let total = val1 + val2 + val3; entry.total = total; let percentage = total / 3;
+                let isLP = entry.item_name && entry.item_name.includes('LP');
+                if (isLP) {
+                    if (percentage >= 70) { entry.grade = 'A'; entry.point = 5; } else if (percentage >= 60) { entry.grade = 'B'; entry.point = 3; } else if (percentage >= 50) { entry.grade = 'C'; entry.point = 1; } else { entry.grade = '0'; entry.point = 0; }
+                } else {
+                    if (percentage >= 80) { entry.grade = 'A'; entry.point = 5; } else if (percentage >= 70) { entry.grade = 'B'; entry.point = 3; } else if (percentage >= 60) { entry.grade = 'C'; entry.point = 1; } else { entry.grade = '0'; entry.point = 0; }
+                }
+            }
+            calculateRanksInMemory(); saveEntries();
+            const filtered = entries.filter(e => e.item_name === entry.item_name);
+            filtered.forEach((e, index) => {
+                let row = document.querySelector(`tr[data-id='${e.id}']`);
+                if(row) {
+                    row.querySelector('.total-cell').innerText = e.total; row.querySelector('.grade-cell').innerText = e.grade;
+                    row.querySelector('.point-cell').innerText = e.point; row.querySelector('.rank-cell').innerText = e.rank || '-';
+                }
+            });
+            updateSummary(filtered);
+        }
+
+        document.getElementById('table-body').addEventListener('input', function(e) {
+            if(e.target.classList.contains('mark-input')) {
+                const id = e.target.getAttribute('data-id');
+                const field = e.target.getAttribute('data-field');
+                let val = e.target.value;
+                if (val !== '') { let num = parseFloat(val); if(num > 100) e.target.value = '100'; if(num < 0) e.target.value = '0'; }
+                processMarkChange(id, field, e.target.value);
+            }
+        });
+
+        document.getElementById('table-body').addEventListener('click', function(e) {
+            const clearBtn = e.target.closest('.action-clear');
+            if (clearBtn) {
+                const id = clearBtn.getAttribute('data-id'); const entry = entries.find(x => String(x.id) === String(id));
+                if(entry) {
+                    entry.j1 = ''; entry.j2 = ''; entry.j3 = '';
+                    processMarkChange(id, 'j1', '');
+                    e.target.closest('tr').querySelectorAll('.mark-input').forEach(inp => inp.value = '');
+                }
+            }
+            const deleteBtn = e.target.closest('.action-delete');
+            if (deleteBtn) {
+                const id = deleteBtn.getAttribute('data-id'); const entry = entries.find(x => String(x.id) === String(id));
+                if(entry) {
+                    entries = entries.filter(x => String(x.id) !== String(id));
+                    calculateRanksInMemory(); saveEntries(); updateDropdowns(); renderTable();
+                }
+            }
+        });
+
+        document.getElementById('btn-save-confirm').addEventListener('click', async () => {
+            calculateRanksInMemory();
+            saveEntries();
+            alert("Marks confirmed and saved locally.");
+        });
+        
+        // --- Admin School Management ---
+        document.getElementById('btn-schools-modal').addEventListener('click', () => {
+            renderAdminSchools();
+            openModal('manage-schools-modal');
+        });
+        
+        function renderAdminSchools() {
+            const tbody = document.getElementById('schools-table-body');
+            tbody.innerHTML = '';
+            systemSchools.forEach(s => {
+                const tr = document.createElement('tr');
+                let statHtml = s.is_confirmed ? `<span style="color:#10b981; font-weight:bold;">Confirmed</span>` : `<span style="color:#f59e0b; font-weight:bold;">Pending</span>`;
+                tr.innerHTML = `
+                    <td>${s.code}</td>
+                    <td class="text-left">${s.name}</td>
+                    <td>${statHtml}</td>
+                    <td>
+                        <button class="btn btn-warning sch-reset-pwd" data-code="${s.code}" style="padding:4px 8px; font-size:11px;">Reset Pwd</button>
+                        ${!s.is_confirmed ? `<button class="btn btn-primary sch-force-conf" data-code="${s.code}" style="padding:4px 8px; font-size:11px;">Force Confirm</button>` : ''}
+                        <button class="btn btn-danger sch-del" data-code="${s.code}" style="padding:4px 8px; font-size:11px;">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            }
+        
+        document.getElementById('schools-table-body').addEventListener('click', (e) => {
+            let code = e.target.getAttribute('data-code');
+            if (!code) return;
+            
+            if (e.target.classList.contains('sch-reset-pwd')) {
+                if(confirm(`Reset password for School ${code} to 'password'?`)) {
+                    systemSchools.find(s => s.code === code).password = "password";
+                    saveSchools();
+                    alert("Password reset.");
+                }
+            } else if (e.target.classList.contains('sch-force-conf')) {
+                if(confirm(`Lock and force confirm registration for School ${code}?`)) {
+                    systemSchools.find(s => s.code === code).is_confirmed = true;
+                    saveSchools();
+                    renderAdminSchools();
+                }
+            } else if (e.target.classList.contains('sch-del')) {
+                if(confirm(`Delete school ${code} completely? This will also remove their unconfirmed draft students.`)) {
+                    systemSchools = systemSchools.filter(s => s.code !== code);
+                    saveSchools();
+                    renderAdminSchools();
+                }
+            }
+        });
+        
+        document.getElementById('btn-add-school').addEventListener('click', () => {
+            const c = document.getElementById('add-sch-code').value.trim();
+            const n = document.getElementById('add-sch-name').value.trim();
+            if(!c || !n) return alert("Enter Code and Name");
+            if(systemSchools.find(x => x.code === c)) return alert("Code already exists");
+            systemSchools.push({ code: c, name: n, password: "password", is_confirmed: false, profile: { head_name:"", head_mobile:"", manager_name1:"", manager_mob1:"", manager_name2:"", manager_mob2:"", manager_name3:"", manager_mob3:"", manager_name4:"", manager_mob4:"", manager_name5:"", manager_mob5:"", lp:0, up:0, hs:0, hss:0 } });
+            saveSchools();
+            document.getElementById('add-sch-code').value = '';
+            document.getElementById('add-sch-name').value = '';
+            renderAdminSchools();
+        });
+
+        // --- USER MANAGEMENT LOGIC ---
+        function renderUsersTable() {
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = '';
+            systemUsers.forEach(u => {
+                const tr = document.createElement('tr');
+                let delBtn = u.username !== 'admin' ? `<button class="btn btn-danger delete-user" data-id="${u.id}" style="padding:4px 8px; font-size:11px;">Remove</button>` : '';
+                let acc = Array.isArray(u.allowed_access) ? u.allowed_access.join(', ') : 'ALL';
+                tr.innerHTML = `<td>${u.username}</td><td>${u.role}</td><td style="font-size:10px; max-width:140px; word-wrap:break-word;">${acc}</td><td>${delBtn}</td>`;
+                tbody.appendChild(tr);
+            });
+            }
+        
+        document.getElementById('users-table-body').addEventListener('click', (e) => {
+            const btn = e.target.closest('.delete-user');
+            if(btn) {
+                if(confirm("Are you sure you want to delete this user?")) {
+                    systemUsers = systemUsers.filter(u => u.id !== btn.getAttribute('data-id'));
+                    saveUsers();
+                    renderUsersTable();
+                }
+            }
+        });
+        
+        // Disable checkboxes if Admin is selected
+        document.getElementById('u-role').addEventListener('change', (e) => {
+            const container = document.getElementById('u-access-checkboxes');
+            if(e.target.value === 'admin') {
+                container.style.opacity = '0.5';
+                container.style.pointerEvents = 'none';
+            } else {
+                container.style.opacity = '1';
+                container.style.pointerEvents = 'auto';
+            }
+        });
+
+        document.getElementById('btn-add-user').addEventListener('click', () => {
+            const u = document.getElementById('u-name').value.trim();
+            const p = document.getElementById('u-pass').value.trim();
+            const r = document.getElementById('u-role').value;
+            
+            let a = Array.from(document.querySelectorAll('.perm-chk:checked')).map(chk => chk.value);
+            if (r === 'admin') a = ['enter_marks', 'dl_manager', 'dl_conf', 'dl_pub', 'dl_cert', 'dl_cards', 'dl_points'];
+            
+            if(!u || !p) return alert("Fill username and password.");
+            if(systemUsers.find(x => x.username === u)) return alert("User already exists.");
+            
+            systemUsers.push({ id: Math.random().toString(36).substr(2,9), username: u, password: p, role: r, allowed_access: a });
+            saveUsers();
+            
+            document.getElementById('u-name').value = '';
+            document.getElementById('u-pass').value = '';
+            document.querySelectorAll('.perm-chk').forEach(chk => chk.checked = true);
+            
+            renderUsersTable();
+            alert("New user created successfully!");
+        });
+
+        document.getElementById('btn-users-modal').addEventListener('click', () => {
+            renderUsersTable(); 
+            openModal('users-modal');
+        });
+
+        // --- RESET SPECIFIC SCHOOL DATA LOGIC ---
+        document.getElementById('btn-reset-school').addEventListener('click', () => {
+            let code = prompt("Enter the exact School Code to reset its registration data (e.g., 11007):");
+            if (code !== null && code.trim() !== '') {
+                code = code.trim();
+                let schIndex = systemSchools.findIndex(s => s.code === code);
+                
+                if (schIndex !== -1) {
+                    if(confirm(`Are you sure you want to completely wipe all student data and profile info for ${systemSchools[schIndex].name}?`)) {
+                        // Clear student data for this school
+                        entries = entries.filter(e => e.school_code !== code);
+                        saveEntries();
+                        
+                        // Reset school profile and confirmation status
+                        systemSchools[schIndex].is_confirmed = false;
+                        systemSchools[schIndex].profile = { head_name:"", head_mobile:"", manager_name1:"", manager_mob1:"", manager_name2:"", manager_mob2:"", manager_name3:"", manager_mob3:"", manager_name4:"", manager_mob4:"", manager_name5:"", manager_mob5:"", lp:0, up:0, hs:0, hss:0 };
+                        saveSchools();
+                        
+                        updateDropdowns();
+                        renderTable();
+                        alert(`Successfully reset data for School ${code}. They can now register again.`);
+                    }
+                } else {
+                    alert("School code not found! Please check the code and try again.");
+                }
+            }
+        });
+
+        // Add Listeners for settings and manual modals
+        document.getElementById('btn-settings-modal').addEventListener('click', () => {
+            const tbody = document.getElementById('config-tbody'); tbody.innerHTML = '';
+            ['name','class','school','category','item','grade','date','place'].forEach(f => {
+                let valInput = f === 'date' || f === 'place' ? `<input type="text" id="c-${f}-v" value="${certConfig[f].v}">` : `-`;
+                tbody.innerHTML += `<tr><td>${f.toUpperCase()}</td><td><input type="number" id="c-${f}-x" value="${certConfig[f].x}"></td><td><input type="number" id="c-${f}-y" value="${certConfig[f].y}"></td><td><input type="number" id="c-${f}-s" value="${certConfig[f].s}"></td><td>${valInput}</td></tr>`;
+            });
+            openModal('settings-modal');
+        });
+        
+        document.getElementById('btn-manual-modal').addEventListener('click', () => {
+            document.getElementById('m-item').value = document.getElementById('item-filter').value;
+            openModal('manual-modal');
+        });
+
+        document.getElementById('btn-save-manual').addEventListener('click', () => {
+            let item = document.getElementById('m-item').value.trim();
+            let sl = document.getElementById('m-sl').value.trim();
+            let name = document.getElementById('m-name').value.trim();
+            let cval = document.getElementById('m-class').value.trim();
+            let school = document.getElementById('m-school').value.trim();
+            
+            if(!item || !name || !school) return alert("Item Name, Student Name, and School Name are required.");
+            
+            // Auto-generate Reg No smoothly by section
+            let cat = 'HS';
+            if (item.includes('LP')) cat = 'LP';
+            else if (item.includes('UP')) cat = 'UP';
+            else if (item.includes('HSS')) cat = 'HSS';
+            
+            let base = { 'LP': 10000, 'UP': 20000, 'HS': 30000, 'HSS': 40000 }[cat] || 10000;
+            let maxReg = base;
+            entries.forEach(e => { 
+                if (e.reg_no && !isNaN(e.reg_no)) {
+                    let r = parseInt(e.reg_no);
+                    if (r > base && r < base + 10000) maxReg = Math.max(maxReg, r);
+                }
+            });
+            let newRegNo = (maxReg + 1).toString();
+            
+            // Attempt to link school code if exact name matched
+            let foundSch = systemSchools.find(s => s.name.toLowerCase() === school.toLowerCase());
+            let sCode = foundSch ? foundSch.code : '';
+            
+            entries.push({
+                id: Math.random().toString(36).substr(2, 9),
+                student_name: name,
+                class_val: cval,
+                dob: '',
+                item_name: item,
+                school_code: sCode,
+                school_name: school,
+                reg_no: newRegNo,
+                code_no: '',
+                sl_no: sl || 0,
+                j1: '', j2: '', j3: '', total: 0, grade: '', point: 0, rank: ''
+            });
+            
+            saveEntries();
+            updateDropdowns();
+            renderTable();
+            closeModal(document.getElementById('manual-modal'));
+            
+            // Clean up inputs for next time
+            document.getElementById('m-sl').value = '';
+            document.getElementById('m-name').value = '';
+            document.getElementById('m-class').value = '';
+            document.getElementById('m-school').value = '';
+        });
+
+        
+        function saveFestConfig() {
+            localStorage.setItem('kalotsava_fest_config_v1', JSON.stringify(festConfig));
+            updateBanner();
+        }
+
+        function updateBanner() {
+            const b = document.getElementById('banner-venue-dates');
+            if (b) {
+                b.innerText = `${festConfig.venue || ''} | ${festConfig.dates || ''}`;
+            }
+        }
+
+        // --- FEST SETTINGS MODAL ---
+        document.getElementById('btn-fest-settings-modal').addEventListener('click', () => {
+            document.getElementById('fest-venue').value = festConfig.venue || '';
+            document.getElementById('fest-dates').value = festConfig.dates || '';
+            renderStagesList();
+            renderAllotmentTable();
+            openModal('fest-settings-modal');
+        });
+
+        document.getElementById('btn-add-stage').addEventListener('click', () => {
+            const sn = document.getElementById('add-stage-name').value.trim();
+            if (!sn) return;
+            if (!festConfig.stages.includes(sn)) {
+                festConfig.stages.push(sn);
+                renderStagesList();
+                renderAllotmentTable();
+            }
+            document.getElementById('add-stage-name').value = '';
+        });
+
+        function renderStagesList() {
+            const c = document.getElementById('stages-list');
+            c.innerHTML = '';
+            festConfig.stages.forEach((stg, idx) => {
+                let d = document.createElement('div');
+                d.style.cssText = "background: #e2e8f0; padding: 4px 10px; border-radius: 15px; font-size: 12px; display: flex; align-items: center; gap: 5px;";
+                d.innerHTML = `<span>${stg}</span> <span style="color:#ef4444; cursor:pointer; font-weight:bold;" onclick="deleteStage(${idx})">×</span>`;
+                c.appendChild(d);
+            });
+        }
+        
+        window.deleteStage = function(idx) {
+            let stgName = festConfig.stages[idx];
+            festConfig.stages.splice(idx, 1);
+            // Remove allotments for this stage
+            for (let key in festConfig.allotments) {
+                if (typeof festConfig.allotments[key] === 'object') {
+                    if (festConfig.allotments[key].stage === stgName) delete festConfig.allotments[key];
+                } else {
+                    if (festConfig.allotments[key] === stgName) delete festConfig.allotments[key];
+                }
+            }
+            renderStagesList();
+            renderAllotmentTable();
+        };
+
+        function renderAllotmentTable() {
+            const tbody = document.getElementById('allotment-table-body');
+            tbody.innerHTML = '';
+            
+            const itemSel = document.getElementById('sel-allot-item');
+            if (itemSel.options.length === 0) {
+                itemSel.innerHTML = '<option value="">-- Select Event --</option>';
+                Object.keys(EVENT_DICTIONARY).sort().forEach(code => {
+                    let opt = document.createElement('option');
+                    opt.value = code;
+                    opt.textContent = `${code} - ${EVENT_DICTIONARY[code]}`;
+                    itemSel.appendChild(opt);
+                });
+            }
+
+            const stageSel = document.getElementById('sel-allot-stage');
+            stageSel.innerHTML = '<option value="">-- Select Stage --</option>';
+            festConfig.stages.forEach(s => {
+                let opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s;
+                stageSel.appendChild(opt);
+            });
+
+            Object.keys(festConfig.allotments).sort().forEach(code => {
+                const evName = EVENT_DICTIONARY[code] || "Unknown";
+                const tr = document.createElement('tr');
+                let allot = festConfig.allotments[code];
+                let curStage = allot.stage || allot || "";
+                let curDate = allot.date || "";
+                let curTime = allot.time || "";
+                
+                tr.innerHTML = `
+                    <td class="text-left"><b>${code}</b> - ${evName}</td>
+                    <td>${curStage}</td>
+                    <td>${curDate}</td>
+                    <td>${curTime}</td>
+                    <td><button class="btn btn-danger" onclick="removeAllotment('${code}')" style="padding:4px 8px; font-size:11px;">Remove</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        
+        window.removeAllotment = function(code) {
+            delete festConfig.allotments[code];
+            renderAllotmentTable();
+        };
+
+        document.getElementById('btn-add-allotment').addEventListener('click', () => {
+            const code = document.getElementById('sel-allot-item').value;
+            const stage = document.getElementById('sel-allot-stage').value;
+            const date = document.getElementById('inp-allot-date').value;
+            const time = document.getElementById('inp-allot-time').value;
+            
+            if (!code || !stage) return alert("Please select an Event and a Stage.");
+            
+            festConfig.allotments[code] = { stage: stage, date: date, time: time };
+            
+            document.getElementById('sel-allot-item').value = "";
+            document.getElementById('sel-allot-stage').value = "";
+            document.getElementById('inp-allot-date').value = "";
+            document.getElementById('inp-allot-time').value = "";
+            
+            renderAllotmentTable();
+        });
+
+        document.getElementById('btn-save-fest-settings').addEventListener('click', () => {
+            festConfig.venue = document.getElementById('fest-venue').value.trim();
+            festConfig.dates = document.getElementById('fest-dates').value.trim();
+            
+            saveFestConfig();
+            alert("Fest configuration and stage allotments saved!");
+            closeModal(document.getElementById('fest-settings-modal'));
+        });
+
+        
+        // --- REPORTS MODALS & POINTS LOGIC ---
+        document.getElementById('btn-reports-modal').addEventListener('click', () => {
+            openModal('reports-modal');
+            document.getElementById('report-view-select').dispatchEvent(new Event('change'));
+        });
+
+        document.getElementById('report-view-select').addEventListener('change', (e) => {
+            const v = e.target.value;
+            const data = getSchoolPointsMap(v === 'overall' ? null : v);
+            let title = v === 'overall' ? "Overall Championship" : `Category: ${v} Points`;
+            
+            let html = `<h4 style="text-align:center; margin-top:5px;">${title}</h4><table style="width:100%; border-collapse:collapse; font-size:12px; min-width:unset;"><thead><tr style="background:#f1f5f9;"><th style="width:80%; text-align:left; border:1px solid #cbd5e1; padding:6px;">School Name</th><th style="width:20%; border:1px solid #cbd5e1; padding:6px;">Points</th></tr></thead><tbody>`;
+            if(data.length === 0) html += `<tr><td colspan="2" style="color:#777; padding:10px; text-align:center;">No points recorded yet.</td></tr>`;
+            data.forEach(r => html += `<tr><td style="text-align:left; border:1px solid #cbd5e1; padding:6px;">${r.school}</td><td style="border:1px solid #cbd5e1; padding:6px;"><b>${r.points}</b></td></tr>`);
+            html += `</tbody></table>`;
+            document.getElementById('report-content-area').innerHTML = html;
+        });
+
+        document.getElementById('btn-dl-report-pdf').addEventListener('click', () => {
+            triggerChampionshipPDF(document.getElementById('report-view-select').value);
+        });
+
+        document.getElementById('btn-public-champ').addEventListener('click', () => {
+            if(!entries || entries.length===0) initializeSystem();
+            triggerChampionshipPDF(document.getElementById('public-champ-filter').value);
+        });
+        
+
+        document.getElementById('btn-cards-modal').addEventListener('click', () => {
+            const activeSchools = [...new Set(entries.map(e => e.school_name))].filter(Boolean).sort();
+            const cardSchool = document.getElementById('card-school-filter');
+            const curVal = cardSchool.value;
+            cardSchool.innerHTML = '<option value="ALL">All Schools (Entire Fest)</option>';
+            activeSchools.forEach(s => {
+                let opt = document.createElement('option'); opt.value = s; opt.textContent = s;
+                cardSchool.appendChild(opt);
+            });
+            if (curVal && activeSchools.includes(curVal)) cardSchool.value = curVal;
+            openModal('cards-modal');
+        });
+
+        document.getElementById('btn-dl-cards-pdf').addEventListener('click', () => {
+            let schoolFilter = document.getElementById('card-school-filter').value;
+            if(!entries || entries.length===0) { alert("No data available."); return; }
+            let filtered = schoolFilter === 'ALL' ? entries : entries.filter(e => e.school_name === schoolFilter);
+            if(filtered.length === 0) { alert("No participants found for selected school."); return; }
+            
+            let participantMap = {};
+            filtered.forEach(e => {
+                let key = (e.school_name + "_" + e.student_name).toLowerCase().trim();
+                if(!participantMap[key]) {
+                    participantMap[key] = {
+                        student_name: e.student_name,
+                        class_val: e.class_val,
+                        school_name: e.school_name,
+                        reg_no: e.reg_no,
+                        items: []
+                    };
+                }
+                let codeStr = Object.keys(EVENT_DICTIONARY).find(k => EVENT_DICTIONARY[k] === e.item_name) || '';
+                let allot = festConfig.allotments[codeStr] || {};
+                let stg = typeof allot === 'object' ? (allot.stage || "Not Assigned") : (allot || "Not Assigned");
+                
+                let dStr = typeof allot === 'object' ? (allot.date || "") : "";
+                let fDate = "-";
+                if (dStr) {
+                    let parts = dStr.split('-');
+                    if(parts.length === 3) fDate = `${parts[2]}/${parts[1]}`;
+                }
+                
+                let tStr = typeof allot === 'object' ? (allot.time || "") : "";
+                let fTime = "-";
+                if (tStr) {
+                    let [h, m] = tStr.split(':');
+                    let ih = parseInt(h);
+                    let ampm = ih >= 12 ? 'PM' : 'AM';
+                    ih = ih % 12 || 12;
+                    fTime = `${ih}:${m} ${ampm}`;
+                }
+                
+                participantMap[key].items.push({
+                    code: codeStr,
+                    name: e.item_name,
+                    stage: stg,
+                    date: fDate,
+                    time: fTime
+                });
+            });
+            
+            let participants = Object.values(participantMap);
+            participants.sort((a,b) => {
+                let s = (a.school_name||'').localeCompare(b.school_name||'');
+                if(s!==0) return s;
+                return (a.student_name||'').localeCompare(b.student_name||'');
+            });
+            
+            const doc = getJsPDFInstance('portrait');
+            if(!doc) return;
+            
+            const startX = 12; const startY = 12; const cardW = 92; const gapX = 10; const gapY = 8;
+            let x = startX; let y = startY; let count = 0;
+            
+            participants.forEach((p, idx) => {
+                // Calculate dynamic height based on content
+                // Base header + details = ~50mm. Each item takes ~11mm.
+                let contentH = 50 + (p.items.length * 11);
+                let cardH = Math.max(65, contentH);
+                
+                if (y + cardH > 280) { // If it exceeds A4 page height, create a new page
+                    doc.addPage();
+                    x = startX; y = startY; count = 0;
+                } else if(count > 0 && count % 2 !== 0) {
+                    x = startX + cardW + gapX;
+                } else if(count > 0 && count % 2 === 0) {
+                    x = startX;
+                    y += cardH + gapY;
+                }
+                
+                // Outer Card Box
+                doc.setLineWidth(0.6); doc.setDrawColor(79, 70, 229);
+                doc.roundedRect(x, y, cardW, cardH, 3, 3);
+                
+                // Header Banner
+                doc.setFillColor(79, 70, 229);
+                doc.roundedRect(x, y, cardW, 12, 3, 3, 'F');
+                doc.setFillColor(79, 70, 229);
+                doc.rect(x, y + 8, cardW, 4, 'F');
+                
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(9); doc.setTextColor(255, 255, 255);
+                doc.text((festConfig.venue || "KALOTSAVA").toUpperCase(), x + (cardW/2), y + 8.5, { align: "center" });
+                
+                let cy = y + 17; let lh = 5;
+                let labelX = x + 5; let colonX = x + 18; let valX = x + 20;
+                
+                doc.setTextColor(15, 23, 42);
+                doc.setFontSize(8); doc.setFont("helvetica", "bold"); doc.text("Name", labelX, cy); doc.text(":", colonX, cy); 
+                doc.setFontSize(8.5); doc.setFont("helvetica", "bold"); doc.text(String(p.student_name||'').substring(0, 32), valX, cy); cy+=lh;
+                
+                doc.setFontSize(8); doc.setFont("helvetica", "bold"); doc.text("Class", labelX, cy); doc.text(":", colonX, cy); 
+                doc.setFontSize(8.5); doc.setFont("helvetica", "normal"); doc.text(String(p.class_val||'').replace('.0',''), valX, cy); cy+=lh;
+                
+                doc.setFontSize(8); doc.setFont("helvetica", "bold"); doc.text("School", labelX, cy); doc.text(":", colonX, cy); 
+                doc.setFontSize(8.5); doc.setFont("helvetica", "normal"); 
+                let splitSchool = doc.splitTextToSize(String(p.school_name||''), cardW - 25);
+                doc.text(splitSchool, valX, cy);
+                cy += splitSchool.length * 4 + 1;
+                
+                doc.setFontSize(8); doc.setFont("helvetica", "bold"); doc.text("Reg No", labelX, cy); doc.text(":", colonX, cy); 
+                doc.setFontSize(8.5); doc.setFont("helvetica", "bold"); doc.setTextColor(79, 70, 229); doc.text(String(p.reg_no || "-"), valX, cy); cy+=lh;
+                doc.setTextColor(15, 23, 42);
+                
+                // Divider
+                doc.setLineWidth(0.2); doc.setDrawColor(203, 213, 225);
+                doc.line(x + 4, cy, x + cardW - 4, cy);
+                cy += 4;
+                
+                // Items
+                doc.setFontSize(8); doc.setFont("helvetica", "bold"); doc.setTextColor(79, 70, 229);
+                doc.text("EVENTS:", labelX, cy);
+                cy += 4.5;
+                doc.setTextColor(15, 23, 42);
+                
+                p.items.forEach((it, iIdx) => {
+                    doc.setFontSize(7.5); doc.setFont("helvetica", "bold");
+                    doc.text(`${iIdx + 1}. [${it.code}] ${it.name}`, labelX, cy);
+                    cy += 4;
+                    doc.setFontSize(7); doc.setFont("helvetica", "normal"); doc.setTextColor(100, 116, 139);
+                    doc.text(`    Stage: ${it.stage}  |  Date: ${it.date}  |  Time: ${it.time}`, labelX, cy);
+                    cy += 4.5;
+                    doc.setTextColor(15, 23, 42);
+                });
+                
+                count++;
+            });
+            
+            doc.save(`Participant_Cards_${schoolFilter.replace(/\s+/g, '_')}.pdf`);
+        });
+
+        function getSchoolPointsMap(catFilter) {
+            let map = {};
+            entries.forEach(e => {
+                let pt = parseFloat(e.point) || 0;
+                if(pt > 0 && e.school_name) {
+                    if(catFilter) {
+                        let parts = e.item_name.split(' ');
+                        let cat = parts.length > 1 ? parts[parts.length - 1] : '';
+                        if(cat !== catFilter) return;
+                    }
+                    let sch = e.school_name.trim();
+                    map[sch] = (map[sch] || 0) + pt;
+                }
+            });
+            let arr = Object.keys(map).map(k => ({ school: k, points: map[k] })).sort((a,b) => b.points - a.points);
+            let rnk = 1;
+            for(let i = 0; i < arr.length; i++) {
+                arr[i].rank = (i > 0 && arr[i].points === arr[i-1].points) ? arr[i-1].rank : rnk;
+                rnk++;
+            }
+            return arr;
+        }
+
+        function triggerChampionshipPDF(viewType) {
+            let data = getSchoolPointsMap(viewType === 'overall' ? null : viewType);
+            if(data.length === 0) return alert("No data available to generate report.");
+            
+            const doc = getJsPDFInstance('portrait');
+            if (!doc) return;
+
+            let title = viewType === 'overall' ? "Overall Championship Report" : `Category ${viewType} School Points`;
+            let startY = drawPDFHeader(doc, title.toUpperCase(), null);
+
+            const head = [['School Name', 'Total Points']];
+            const body = data.map(r => [r.school, String(r.points)]);
+
+            doc.autoTable({
+                head: head,
+                body: body,
+                startY: startY,
+                theme: 'grid',
+                margin: { top: 12, right: 8, bottom: 12, left: 8 },
+                rowPageBreak: 'avoid',
+                styles: { font: 'helvetica', fontSize: 10, cellPadding: 2.5, textColor: [0, 0, 0], lineColor: [0, 0, 0], lineWidth: 0.2, valign: 'middle', overflow: 'linebreak' },
+                headStyles: { fillColor: [241, 245, 249], textColor: [0, 0, 0], fontStyle: 'bold', halign: 'center', lineColor: [0, 0, 0], lineWidth: 0.25 },
+                columnStyles: {
+                    0: { cellWidth: 159, halign: 'left' },
+                    1: { cellWidth: 35, halign: 'center', fontStyle: 'bold' }
+                }
+            });
+
+            doc.save(`${title.replace(/\s+/g, '_')}.pdf`);
+        }
+
+        // --- STAGE SCHEDULE PDF ---
+        document.getElementById('btn-dl-schedule').addEventListener('click', () => {
+            const doc = getJsPDFInstance('portrait');
+            if (!doc) return;
+            
+            let startY = 15;
+            doc.setFont("helvetica", "bold"); doc.setFontSize(16); doc.setTextColor(0, 0, 0);
+            doc.text((festConfig.venue || "KALOTSAVA").toUpperCase(), 105, startY, { align: "center" });
+            startY += 8;
+            doc.setFontSize(12);
+            doc.text("OFFICIAL STAGE ALLOTMENT SCHEDULE", 105, startY, { align: "center" });
+            startY += 6;
+            doc.setFontSize(10); doc.setFont("helvetica", "normal");
+            doc.text(`Dates: ${festConfig.dates || "Not Set"}`, 105, startY, { align: "center" });
+            startY += 12;
+
+            if (festConfig.stages.length === 0) {
+                alert("No stages have been defined yet. Please set them up in 'Fest & Stages'.");
+                return;
+            }
+
+            festConfig.stages.forEach(stg => {
+                doc.setFont("helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(255, 255, 255);
+                doc.setFillColor(59, 130, 246);
+                doc.rect(14, startY, 182, 8, 'F');
+                doc.text(`STAGE: ${stg}`, 16, startY + 5.5);
+                startY += 10;
+                
+                // Find items for this stage
+                let assignedCodes = Object.keys(festConfig.allotments).filter(c => {
+                    let val = festConfig.allotments[c];
+                    return (typeof val === 'object') ? (val.stage === stg) : (val === stg);
+                });
+                
+                if (assignedCodes.length > 0) {
+                    // Sort by date, then time, then item code
+                    assignedCodes.sort((a, b) => {
+                        let valA = festConfig.allotments[a]; let valB = festConfig.allotments[b];
+                        let dateA = (typeof valA === 'object' && valA.date) ? valA.date : "9999-99-99";
+                        let dateB = (typeof valB === 'object' && valB.date) ? valB.date : "9999-99-99";
+                        if (dateA !== dateB) return dateA.localeCompare(dateB);
+                        let timeA = (typeof valA === 'object' && valA.time) ? valA.time : "23:59";
+                        let timeB = (typeof valB === 'object' && valB.time) ? valB.time : "23:59";
+                        if (timeA !== timeB) return timeA.localeCompare(timeB);
+                        return a.localeCompare(b);
+                    });
+                    
+                    function formatTime(timeStr) {
+                        if (!timeStr) return "-";
+                        let [h, m] = timeStr.split(':');
+                        let ih = parseInt(h);
+                        let ampm = ih >= 12 ? 'PM' : 'AM';
+                        ih = ih % 12 || 12;
+                        return `${ih}:${m} ${ampm}`;
+                    }
+                    
+                    function formatDate(dateStr) {
+                        if (!dateStr) return "-";
+                        let parts = dateStr.split('-');
+                        if(parts.length === 3) return `${parts[2]}/${parts[1]}`;
+                        return dateStr;
+                    }
+
+                    let body = assignedCodes.map((c, i) => {
+                        let d = (typeof festConfig.allotments[c] === 'object') ? festConfig.allotments[c].date : "";
+                        let t = (typeof festConfig.allotments[c] === 'object') ? festConfig.allotments[c].time : "";
+                        return [i + 1, formatDate(d), formatTime(t), c, EVENT_DICTIONARY[c]];
+                    });
+                    
+                    doc.autoTable({
+                        head: [['Sl No', 'Date', 'Time', 'Item Code', 'Event Name']],
+                        body: body,
+                        startY: startY,
+                        theme: 'grid',
+                        styles: { fontSize: 9.5, cellPadding: 2 },
+                        columnStyles: { 
+                            0: {cellWidth: 12, halign: 'center'}, 
+                            1: {cellWidth: 20, halign: 'center', fontStyle: 'bold'}, 
+                            2: {cellWidth: 22, halign: 'center', fontStyle: 'bold'}, 
+                            3: {cellWidth: 22, halign: 'center'} 
+                        },
+                        headStyles: { fillColor: [240, 240, 240], textColor: 0 }
+                    });
+                    startY = doc.lastAutoTable.finalY + 10;
+                } else {
+                    doc.setFont("helvetica", "italic"); doc.setFontSize(10); doc.setTextColor(100);
+                    doc.text("No events assigned to this stage.", 16, startY + 4);
+                    startY += 12;
+                }
+                
+                // Page break if running out of space
+                if (startY > 260) {
+                    doc.addPage();
+                    startY = 20;
+                }
+            });
+            doc.save("Stage_Allotment_Schedule.pdf");
+        });
+
+                
+        // --- PRE-EVENT BLANK SHEETS ---
+        document.getElementById('btn-dl-call-sheet').addEventListener('click', () => {
+            const targetItem = document.getElementById('item-filter').value;
+            if(!targetItem) return alert("Select an item category first.");
+            let filtered = entries.filter(e => e.item_name === targetItem);
+            if(filtered.length === 0) return alert("No participants registered for this event yet.");
+            filtered.sort((a,b) => (parseInt(a.sl_no)||0) - (parseInt(b.sl_no)||0));
+            
+            const doc = getJsPDFInstance('portrait');
+            if (!doc) return;
+            
+
+            let codeStrKey = Object.keys(EVENT_DICTIONARY).find(k => EVENT_DICTIONARY[k] === targetItem) || '';
+            let allot = festConfig.allotments[codeStrKey];
+            let stg = allot && typeof allot === 'object' ? allot.stage : (allot || "Not Assigned");
+            let tStr = allot && typeof allot === 'object' && allot.time ? allot.time : "";
+            let fTime = "-";
+            if (tStr) {
+                let [h, m] = tStr.split(':');
+                let ih = parseInt(h);
+                let ampm = ih >= 12 ? 'PM' : 'AM';
+                ih = ih % 12 || 12;
+                fTime = `${ih}:${m} ${ampm}`;
+            }
+            let dStr = allot && typeof allot === 'object' && allot.date ? allot.date : "";
+            let fDate = "-";
+            if (dStr) {
+                let parts = dStr.split('-');
+                if(parts.length === 3) fDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+            let startY = drawPDFHeader(doc, "CALL SHEET", targetItem);
+            doc.setFontSize(11);
+            doc.text(`Stage: ${stg}   |   Date: ${fDate}   |   Time: ${fTime}`, 105, startY + 6, { align: "center" });
+            
+            doc.autoTable({
+                head: [['Sl.No', 'Reg No', 'Code No', 'Signature of Participant', 'Remarks']],
+                body: filtered.map((e, i) => [e.sl_no || (i+1), e.reg_no || '-', e.code_no || '', '', '']),
+                startY: startY + 12,
+                theme: 'grid',
+                styles: { minCellHeight: 15, valign: 'middle', halign: 'center', fontSize: 10, lineColor: [0,0,0], lineWidth: 0.1, textColor: [0,0,0] },
+                headStyles: { fillColor: [240, 240, 240] },
+                columnStyles: {
+                    2: { cellWidth: 25 },
+                    3: { cellWidth: 50 },
+                    4: { cellWidth: 35 }
+                }
+            });
+            doc.save(`Call_Sheet_${targetItem.replace(/\s+/g, '_')}.pdf`);
+        });
+
+        document.getElementById('btn-dl-score-sheet').addEventListener('click', () => {
+            const targetItem = document.getElementById('item-filter').value;
+            if(!targetItem) return alert("Select an item category first.");
+            let filtered = entries.filter(e => e.item_name === targetItem);
+            if(filtered.length === 0) return alert("No participants registered for this event yet.");
+            filtered.sort((a,b) => (parseInt(a.sl_no)||0) - (parseInt(b.sl_no)||0));
+            
+            const doc = getJsPDFInstance('portrait');
+            if (!doc) return;
+            
+
+            let codeStrKey = Object.keys(EVENT_DICTIONARY).find(k => EVENT_DICTIONARY[k] === targetItem) || '';
+            let allot = festConfig.allotments[codeStrKey];
+            let stg = allot && typeof allot === 'object' ? allot.stage : (allot || "Not Assigned");
+            let tStr = allot && typeof allot === 'object' && allot.time ? allot.time : "";
+            let fTime = "-";
+            if (tStr) {
+                let [h, m] = tStr.split(':');
+                let ih = parseInt(h);
+                let ampm = ih >= 12 ? 'PM' : 'AM';
+                ih = ih % 12 || 12;
+                fTime = `${ih}:${m} ${ampm}`;
+            }
+            doc.setFont("helvetica", "bold"); doc.setFontSize(14); doc.setTextColor(139, 0, 0); // Dark red title
+            doc.text("Score Sheet", 105, 15, {align: 'center'});
+            doc.setTextColor(0, 0, 0);
+            
+            // Draw Custom Header Box to match the uploaded model
+            doc.setLineWidth(0.2);
+            doc.rect(14, 18, 182, 21); // height 21
+            doc.setFontSize(10);
+            doc.text(`Festival: ${festConfig.venue || ''}`, 105, 23, {align: 'center'});
+            doc.line(14, 25, 196, 25);
+            
+            let dStr = allot && typeof allot === 'object' && allot.date ? allot.date : "";
+            let fDate = dStr ? dStr.split('-').reverse().join('/') : (festConfig.dates || '-');
+
+            doc.text(`Item: ${targetItem}`, 16, 30);
+            doc.line(135, 25, 135, 39);
+            doc.text(`Date: ${fDate}`, 137, 30);
+            
+            doc.line(14, 32, 196, 32);
+            doc.text(`Stage: ${stg}`, 16, 37);
+            doc.text(`Time: ${fTime}`, 137, 37);
+            
+            // Evaluation Criteria Blank area placeholder
+            doc.setFont("helvetica", "italic"); doc.setFontSize(9);
+            doc.text("Evaluation Criteria: Provide scores out of designated max marks for A, B, C, D, E, F.", 16, 44);
+            doc.setFont("helvetica", "bold");
+            
+            doc.autoTable({
+                head: [
+                    [{content: 'Sl.No', rowSpan: 2}, {content: 'Code.No', rowSpan: 2}, {content: 'Score for each value points', colSpan: 6}, {content: 'Total out of 100', colSpan: 2}, {content: 'Remarks', rowSpan: 2}],
+                    ['A', 'B', 'C', 'D', 'E', 'F', 'In Figures', 'In Words']
+                ],
+                body: filtered.map((e, i) => [e.sl_no || (i+1), e.code_no || '', '', '', '', '', '', '', '', '', '']),
+                startY: 47,
+                theme: 'grid',
+                styles: { minCellHeight: 10, halign: 'center', valign: 'middle', fontSize: 9, lineColor: [0,0,0], lineWidth: 0.1, textColor: [0,0,0] },
+                headStyles: { fillColor: [255, 255, 255], textColor: [0,0,0], fontStyle: 'bold', lineWidth: 0.2 },
+                columnStyles: {
+                    0: { cellWidth: 10 },
+                    1: { cellWidth: 18 },
+                    2: { cellWidth: 10 }, // A
+                    3: { cellWidth: 10 }, // B
+                    4: { cellWidth: 10 }, // C
+                    5: { cellWidth: 10 }, // D
+                    6: { cellWidth: 10 }, // E
+                    7: { cellWidth: 10 }, // F
+                    8: { cellWidth: 20 }, // Figures
+                    9: { cellWidth: 30 }, // Words
+                    10: { cellWidth: 44 } // Remarks
+                }
+            });
+            doc.save(`Score_Sheet_${targetItem.replace(/\s+/g, '_')}.pdf`);
+        });
+
+        document.getElementById('btn-dl-tab-sheet').addEventListener('click', () => {
+            const targetItem = document.getElementById('item-filter').value;
+            if(!targetItem) return alert("Select an item category first.");
+            let filtered = entries.filter(e => e.item_name === targetItem);
+            if(filtered.length === 0) return alert("No participants registered for this event yet.");
+            filtered.sort((a,b) => (parseInt(a.sl_no)||0) - (parseInt(b.sl_no)||0));
+            
+            const doc = getJsPDFInstance('portrait'); // Landscape to fit all columns nicely
+            if (!doc) return;
+            
+            doc.setFont("helvetica", "bold"); doc.setFontSize(16);
+            doc.text("Tabulation Sheet", 105, 15, {align: 'center'});
+            
+
+            let codeStrKey = Object.keys(EVENT_DICTIONARY).find(k => EVENT_DICTIONARY[k] === targetItem) || '';
+            let allot = festConfig.allotments[codeStrKey];
+            let stg = allot && typeof allot === 'object' ? allot.stage : (allot || "Not Assigned");
+            let tStr = allot && typeof allot === 'object' && allot.time ? allot.time : "";
+            let fTime = "-";
+            if (tStr) {
+                let [h, m] = tStr.split(':');
+                let ih = parseInt(h);
+                let ampm = ih >= 12 ? 'PM' : 'AM';
+                ih = ih % 12 || 12;
+                fTime = `${ih}:${m} ${ampm}`;
+            }
+            let dStr = allot && typeof allot === 'object' && allot.date ? allot.date : "";
+            let fDate = dStr ? dStr.split('-').reverse().join('/') : (festConfig.dates || '-');
+            
+            doc.setFontSize(11);
+            doc.text(`Item :   ${targetItem}`, 14, 25);
+            doc.text(`Date :   ${fDate}`, 140, 25);
+            doc.text(`Stage :  ${stg}    |    Time :  ${fTime}`, 14, 31);
+            
+            doc.autoTable({
+                head: [
+                    [{content: '', colSpan: 3}, {content: 'Score', colSpan: 3, styles: {halign: 'center'}}, {content: '', colSpan: 4}],
+                    ['Sl.No', 'Reg No', 'Code.No', 'J1', 'J2', 'J3', 'Total', 'Grade', 'Rank', 'Remarks']
+                ],
+                body: filtered.map((e, i) => [e.sl_no || (i+1), e.reg_no || '-', e.code_no || '', '', '', '', '', '', '', '']),
+                startY: 36,
+                theme: 'grid',
+                styles: { minCellHeight: 12, halign: 'center', valign: 'middle', fontSize: 8.5, cellPadding: 1.5, lineColor: [0,0,0], lineWidth: 0.1, textColor: [0,0,0] },
+                headStyles: { fillColor: [255, 255, 255], textColor: [0,0,0], fontStyle: 'bold', lineWidth: 0.2 },
+                columnStyles: {
+                    0: { cellWidth: 10 },
+                    1: { cellWidth: 18 },
+                    2: { cellWidth: 18 },
+                    3: { cellWidth: 10 },
+                    4: { cellWidth: 10 },
+                    5: { cellWidth: 10 },
+                    6: { cellWidth: 12 },
+                    7: { cellWidth: 12 },
+                    8: { cellWidth: 10 },
+                    9: { cellWidth: 'auto' }
+                }
+            });
+            doc.save(`Tabulation_Sheet_${targetItem.replace(/\s+/g, '_')}.pdf`);
+        });
+
+        
+        // --- DATA ENTRY MANUAL PDF ENGINE ---
+        document.getElementById('btn-dl-manual').addEventListener('click', () => {
+            const doc = getJsPDFInstance('portrait');
+            if (!doc) return;
+            
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(22);
+            doc.setTextColor(30, 60, 114);
+            doc.text("SCHOOL LOGIN MANUAL", 105, 20, {align: 'center'});
+            
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Manjeshwara Sub-District Kalotsava Portal", 105, 27, {align: 'center'});
+            
+            doc.setLineWidth(0.5);
+            doc.setDrawColor(200, 200, 200);
+            doc.line(20, 32, 190, 32);
+            
+            let cy = 42;
+            doc.setTextColor(0, 0, 0);
+            
+            const writeSection = (title, textLines) => {
+                if (cy > 260) { doc.addPage(); cy = 20; }
+                doc.setFont("helvetica", "bold"); doc.setFontSize(13); doc.setTextColor(194, 24, 91);
+                doc.text(title, 20, cy); cy += 7;
+                doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(40, 40, 40);
+                textLines.forEach(line => {
+                    if (cy > 275) { doc.addPage(); cy = 20; }
+                    let splits = doc.splitTextToSize(line, 170);
+                    doc.text(splits, 20, cy);
+                    cy += splits.length * 5 + 3;
+                });
+                cy += 5;
+            };
+            
+            writeSection("OFFICIAL SCHOOL REGISTRATION GUIDELINES", [
+                "• LOGIN ACCESS: Use your Official School Code as your Username. Your initial default password is 'password'.",
+                "• PASSWORD UPDATE: Upon your first login, the system will strictly require you to update your password for security. Passwords are case-sensitive, so enter them carefully and keep them safe.",
+                "• INSTITUTIONAL PROFILE (MANDATORY): Before adding any students, you must completely fill out the 'Institutional Profile Registration' section. This includes Head of Institution details and Team Manager details. You cannot register students until this profile is saved.",
+                "• ADDING STUDENTS: Select the exact category (LP, UP, HS, HSS). Enter the student's name, class, and date of birth accurately. Ensure spelling is correct as it reflects directly on certificates.",
+                "• ITEM CODES: The system strictly validates event item codes. For example, if you select the 'LP' category, you can only assign LP event codes to that student. Refer to the 'Official Item Codes' document for correct codes.",
+                "• EVENT LIMITS: A single student can participate in a maximum of 3 events. The system will prevent you from exceeding this limit.",
+                "• SCHOOL LIMITS: Only one participant per event per school is allowed. The portal will block duplicate event entries for your school.",
+                "• REGISTRATION NUMBERS: The portal will automatically generate sequential Registration Numbers for your students as they are successfully added to events.",
+                "• FINAL SUBMIT & CONFIRM: Review all your draft entries carefully. Any mistakes cannot be corrected later. Once you click 'Final Submit & Confirm', your data is permanently locked and submitted securely to the Sub-District Admin.",
+                "• TEAM MANAGER REPORT: After confirming, you can download your official 'Team Manager Report' directly from your dashboard, which includes all finalized Registration Numbers for your students."
+            ]);
+            
+            doc.save("Kalotsava_School_Manual.pdf");
+        });
+
+        // --- ITEM CODES PDF ENGINE ---
+
+        document.getElementById('btn-dl-item-codes').addEventListener('click', () => {
+            const doc = getJsPDFInstance('portrait');
+            if (!doc) return;
+            
+            let startY = 15;
+            doc.setFont("helvetica", "bold"); doc.setFontSize(16); doc.setTextColor(0, 0, 0);
+            doc.text("OFFICIAL KALOTSAVA ITEM CODES", 105, startY, { align: "center" });
+            startY += 10;
+            
+            doc.setFontSize(10); doc.setFont("helvetica", "normal");
+            doc.text("Use these codes precisely when registering students in the portal.", 105, startY, { align: "center" });
+            startY += 8;
+
+            let body = Object.keys(EVENT_DICTIONARY).sort().map(code => [code, EVENT_DICTIONARY[code]]);
+            
+            doc.autoTable({
+                head: [['Item Code', 'Event Name']],
+                body: body,
+                startY: startY,
+                theme: 'grid',
+                styles: { fontSize: 11, cellPadding: 3 },
+                columnStyles: { 0: {cellWidth: 40, halign: 'center', fontStyle: 'bold'}, 1: {halign: 'left'} },
+                headStyles: { fillColor: [59, 130, 246], textColor: 255, halign: 'center' }
+            });
+            
+            doc.save("Official_Item_Codes.pdf");
+        });
+
+        // --- NATIVE PDF ENGINE ---
+        function getJsPDFInstance(orientation = 'portrait') {
+            const jspdfLib = window.jspdf ? window.jspdf.jsPDF : window.jsPDF;
+            if (!jspdfLib) { alert("PDF library is still loading."); return null; }
+            return new jspdfLib({ orientation: orientation, unit: 'mm', format: 'a4' });
+        }
+
+        function drawPDFHeader(doc, subtitleText, itemText) {
+            doc.setFont("helvetica", "bold"); doc.setFontSize(16); doc.setTextColor(0, 0, 0);
+            doc.text("MANJESHWARA SUB-DISTRICT KALOTSAVA", 105, 15, { align: "center" });
+            doc.setFontSize(12); doc.text(subtitleText.toUpperCase(), 105, 22, { align: "center" });
+            if (itemText) {
+                doc.setFontSize(11); doc.text(`Item: ${itemText}`, 105, 28, { align: "center" });
+                const textWidth = doc.getTextWidth(`Item: ${itemText}`);
+                doc.setLineWidth(0.3); doc.line(105 - (textWidth / 2), 29, 105 + (textWidth / 2), 29);
+                return 35;
+            }
+            return 30;
+        }
+
+        function triggerPDFDownload(type, isPublicContext = false) {
+            const targetItem = isPublicContext ? document.getElementById('public-item-filter').value : document.getElementById('item-filter').value;
+            if(!targetItem) return alert("Select an item category first.");
+            let filtered = entries.filter(e => e.item_name === targetItem);
+            
+            if (type === 'certificates') {
+                let certsToPrint = filtered.filter(e => ['A', 'B', 'C'].includes(e.grade));
+                if(certsToPrint.length === 0) return alert("No students have been graded A, B, or C yet.");
+                const doc = getJsPDFInstance('landscape');
+                if (!doc) return;
+                certsToPrint.forEach((e, idx) => {
+                    if (idx > 0) doc.addPage('a4', 'landscape');
+                    let parts = e.item_name.split(' ');
+                    let category = parts.length > 1 ? parts[parts.length - 1] : '';
+                    let itemOnly = parts.length > 1 ? parts.slice(0, -1).join(' ') : e.item_name;
+                    let cVal = e.class_val && e.class_val !== 'nan' ? String(e.class_val) : '';
+                    if(cVal.endsWith('.0')) cVal = cVal.replace('.0', '');
+                    doc.setTextColor(0, 0, 0);
+                    
+                    let lX = certConfig.name.x; let cX = lX + 28; let vX = cX + 4;
+                    doc.setFont("helvetica", "bold");
+                    doc.setFontSize(certConfig.name.s || 15);
+                    doc.text("Name", lX, certConfig.name.y); doc.text(":", cX, certConfig.name.y); doc.text(String(e.student_name || ''), vX, certConfig.name.y);
+                    doc.setFont("helvetica", "normal");
+                    doc.setFontSize(certConfig.class.s || 14);
+                    doc.text("Class", lX, certConfig.class.y); doc.text(":", cX, certConfig.class.y); doc.text(String(cVal || ''), vX, certConfig.class.y);
+                    doc.setFontSize(certConfig.school.s || 14);
+                    doc.text("School", lX, certConfig.school.y); doc.text(":", cX, certConfig.school.y); doc.text(String(e.school_name || ''), vX, certConfig.school.y);
+                    doc.setFontSize(certConfig.category.s || 14);
+                    doc.text("Category", lX, certConfig.category.y); doc.text(":", cX, certConfig.category.y); doc.text(String(category || ''), vX, certConfig.category.y);
+                    doc.setFontSize(certConfig.item.s || 14);
+                    doc.text("Item", lX, certConfig.item.y); doc.text(":", cX, certConfig.item.y); doc.text(String(itemOnly || ''), vX, certConfig.item.y);
+                    doc.setFont("helvetica", "bold");
+                    doc.setFontSize(certConfig.grade.s || 14);
+                    doc.text("Grade", lX, certConfig.grade.y); doc.text(":", cX, certConfig.grade.y); doc.text(String(e.grade || ''), vX, certConfig.grade.y);
+                    
+                    doc.setFont("helvetica", "normal"); doc.setFontSize(certConfig.date.s || 11);
+                    doc.text(String(certConfig.date.v || ''), certConfig.date.x, certConfig.date.y);
+                    doc.setFontSize(certConfig.place.s || 11);
+                    doc.text(String(certConfig.place.v || ''), certConfig.place.x, certConfig.place.y);
+                });
+                doc.save(`Certificates_${targetItem.replace(/\s+/g, '_')}.pdf`);
+            } else if (type === 'public') {
+                const doc = getJsPDFInstance('portrait');
+                if (!doc) return;
+                let startY = drawPDFHeader(doc, "OFFICIAL RESULT", targetItem);
+                filtered.sort((a,b) => (parseInt(a.sl_no)||0) - (parseInt(b.sl_no)||0));
+                doc.autoTable({
+                    head: [['Reg No', 'Student Name', 'School Name', 'Grade', 'Point', 'Rank']],
+                    body: filtered.map(e => {
+                        let r = parseInt(e.rank);
+                        let rVal = (!isNaN(r) && r > 0 && r <= 3) ? String(r) : '0';
+                        return [e.reg_no||'-', e.student_name||'', e.school_name||'', e.grade||'-', e.point||'-', rVal];
+                    }),
+                    startY: startY, theme: 'grid', styles: { font: 'helvetica', fontSize: 10 }
+                });
+                doc.save(`Public_Result_${targetItem}.pdf`);
+            } else if (type === 'confidential') {
+                const doc = getJsPDFInstance('portrait');
+                if (!doc) return;
+                let startY = drawPDFHeader(doc, "CONFIDENTIAL RESULT REPORT", targetItem);
+                filtered.sort((a,b) => (parseInt(a.sl_no)||0) - (parseInt(b.sl_no)||0));
+                doc.autoTable({
+                    head: [['Reg No', 'Student Name', 'School Name', 'J1', 'J2', 'J3', 'Total', 'Grade', 'Pt', 'Rank']],
+                    body: filtered.map(e => [e.reg_no||'-', e.student_name||'', e.school_name||'', e.j1||'-', e.j2||'-', e.j3||'-', e.total||'-', e.grade||'-', e.point||'-', e.rank||'-']),
+                    startY: startY, theme: 'grid', styles: { font: 'helvetica', fontSize: 8.5 }
+                });
+                doc.save(`Confidential_${targetItem}.pdf`);
+            }
+        }
+
+
+        document.getElementById('btn-dl-manager').addEventListener('click', () => {
+            const doc = getJsPDFInstance('portrait');
+            if (!doc) return;
+            
+            let confirmedSchools = systemSchools.filter(s => s.is_confirmed);
+            if (confirmedSchools.length === 0) return alert("No schools have confirmed their data yet.");
+            
+            let startY = 15;
+            
+            confirmedSchools.forEach((sch, idx) => {
+                if (idx > 0) { doc.addPage(); startY = 15; }
+                doc.setFont("helvetica", "bold"); doc.setFontSize(14);
+                doc.text("TEAM MANAGER & STUDENT DATA REPORT", 105, startY, { align: "center" });
+                startY += 10;
+                
+                doc.setFontSize(12);
+                doc.text(`School: ${sch.name} (${sch.code})`, 14, startY);
+                startY += 6;
+                
+                doc.setFontSize(10); doc.setFont("helvetica", "normal");
+                let headName = (sch.profile && sch.profile.head_name) ? sch.profile.head_name : "N/A";
+                let headMob = (sch.profile && sch.profile.head_mobile) ? sch.profile.head_mobile : "N/A";
+                
+                doc.text(`Head of Inst: ${headName} | Mob: ${headMob}`, 14, startY); startY += 5;
+                doc.text("Team Managers:", 14, startY); startY += 5;
+                
+                let hasMgr = false;
+                if(sch.profile) {
+                    for(let i=1; i<=5; i++) {
+                        let mName = sch.profile[`manager_name${i}`];
+                        let mMob = sch.profile[`manager_mob${i}`];
+                        if(mName) {
+                            hasMgr = true;
+                            doc.text(`  • ${mName} (Mob: ${mMob || 'N/A'})`, 14, startY);
+                            startY += 5;
+                        }
+                    }
+                }
+                if(!hasMgr) {
+                    doc.text("  • N/A", 14, startY);
+                    startY += 5;
+                }
+                startY += 3;
+                
+                let schEntries = entries.filter(e => e.school_code === sch.code);
+                if (schEntries.length > 0) {
+                    schEntries.sort((a,b) => (a.item_name||'').localeCompare(b.item_name||''));
+                    let body = schEntries.map((e, i) => [
+                        i + 1, e.reg_no || '-', e.student_name, e.class_val, e.item_name
+                    ]);
+                    doc.autoTable({
+                        head: [['Sl No', 'Reg No', 'Student Name', 'Class', 'Event']],
+                        body: body,
+                        startY: startY,
+                        theme: 'grid',
+                        styles: { fontSize: 9, cellPadding: 1.5, overflow: 'linebreak' },
+                        columnStyles: { 4: {cellWidth: 60} }
+                    });
+                    startY = doc.lastAutoTable.finalY + 10;
+                } else {
+                    doc.text("No students registered.", 14, startY);
+                    startY += 10;
+                }
+            });
+            doc.save("Team_Manager_Report.pdf");
+        });
+        
+        document.getElementById('btn-dl-conf').addEventListener('click', () => triggerPDFDownload('confidential'));
+        document.getElementById('btn-dl-pub').addEventListener('click', () => triggerPDFDownload('public'));
+        document.getElementById('btn-dl-cert').addEventListener('click', () => triggerPDFDownload('certificates'));
+        document.getElementById('btn-public-result').addEventListener('click', () => { triggerPDFDownload('public', true); });
+        
+        // ... (remaining event listeners for reports, participant cards, and JSON backup/restore mapped directly to `entries` array) ...
+        document.getElementById('btn-export-data').addEventListener('click', () => {
+            const backup = { entries: entries, schools: systemSchools, users: systemUsers };
+            const a = document.createElement('a');
+            a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup));
+            a.download = "Kalotsava_Full_Backup.json";
+            document.body.appendChild(a); a.click(); a.remove();
+        });
+        
+        document.getElementById('btn-import-data').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const data = JSON.parse(event.target.result);
+                    if (data.entries) entries = data.entries;
+                    if (data.schools) systemSchools = data.schools;
+                    if (data.users) systemUsers = data.users;
+                    saveEntries(); saveSchools(); saveUsers();
+                    updateDropdowns(); renderTable();
+                    alert("Data successfully restored from backup!");
+                } catch (err) { alert("Invalid backup format."); }
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+        });
+
+        
+        // --- SCHOOL SPECIFIC MANAGER REPORT ---
+        document.getElementById('btn-school-mgr-report').addEventListener('click', () => {
+            if(!currentUser || currentUser.type !== 'school') return;
+            const doc = getJsPDFInstance('portrait');
+            if (!doc) return;
+            
+            let sch = systemSchools.find(s => s.code === currentUser.code);
+            if(!sch) return;
+
+            let startY = 15;
+            doc.setFont("helvetica", "bold"); doc.setFontSize(14);
+            doc.text("TEAM MANAGER & STUDENT DATA REPORT", 105, startY, { align: "center" });
+            startY += 10;
+            
+            doc.setFontSize(12);
+            doc.text(`School: ${sch.name} (${sch.code})`, 14, startY);
+            startY += 6;
+            
+            doc.setFontSize(10); doc.setFont("helvetica", "normal");
+            let headName = (sch.profile && sch.profile.head_name) ? sch.profile.head_name : "N/A";
+            let headMob = (sch.profile && sch.profile.head_mobile) ? sch.profile.head_mobile : "N/A";
+            
+            doc.text(`Head of Inst: ${headName} | Mob: ${headMob}`, 14, startY); startY += 5;
+            doc.text("Team Managers:", 14, startY); startY += 5;
+            
+            let hasMgr = false;
+            if(sch.profile) {
+                for(let i=1; i<=5; i++) {
+                    let mName = sch.profile[`manager_name${i}`];
+                    let mMob = sch.profile[`manager_mob${i}`];
+                    if(mName) {
+                        hasMgr = true;
+                        doc.text(`  • ${mName} (Mob: ${mMob || 'N/A'})`, 14, startY);
+                        startY += 5;
+                    }
+                }
+            }
+            if(!hasMgr) {
+                doc.text("  • N/A", 14, startY);
+                startY += 5;
+            }
+            startY += 3;
+            
+            // Allow schools to download report whether confirmed or still in drafts
+            let schEntries = sch.is_confirmed ? entries.filter(e => e.school_code === sch.code) : schoolDrafts;
+            
+            if (schEntries.length > 0) {
+                schEntries.sort((a,b) => (a.item_name||'').localeCompare(b.item_name||''));
+                let body = schEntries.map((e, i) => [
+                    i + 1, e.reg_no || '-', e.student_name, e.class_val, e.item_name
+                ]);
+                doc.autoTable({
+                    head: [['Sl No', 'Reg No', 'Student Name', 'Class', 'Event']],
+                    body: body,
+                    startY: startY,
+                    theme: 'grid',
+                    styles: { fontSize: 9, cellPadding: 1.5, overflow: 'linebreak' },
+                    columnStyles: { 4: {cellWidth: 60} }
+                });
+            } else {
+                doc.text("No students registered yet.", 14, startY);
+            }
+            doc.save(`Team_Report_${sch.code}.pdf`);
+        });
+
+window.addEventListener('DOMContentLoaded', () => {
+        document.body.addEventListener('input', function(e) {
+            const allowedContainers = ['school-profile-section', 'school-registration-section', 'manual-modal'];
+            const inAllowedContainer = allowedContainers.some(id => e.target.closest('#' + id));
+            
+            if (inAllowedContainer && e.target.tagName === 'INPUT' && e.target.type === 'text') {
+                let start = e.target.selectionStart;
+                let end = e.target.selectionEnd;
+                e.target.value = e.target.value.toUpperCase();
+                e.target.setSelectionRange(start, end);
+            }
+        });
+ initializeSystem(); });
+    
+        document.getElementById('btn-add-mgr-row').addEventListener('click', () => {
+            for(let i=2; i<=5; i++) {
+                let row = document.querySelector(`.mgr-row[data-index="${i}"]`);
+                if(row && row.style.display === 'none') {
+                    row.style.display = 'grid';
+                    break;
+                }
+            }
+        });
+
+        window.removeMgrRow = function(idx) {
+            let row = document.querySelector(`.mgr-row[data-index="${idx}"]`);
+            if(row) {
+                row.style.display = 'none';
+                document.getElementById(`prof-mgr-name${idx}`).value = '';
+                document.getElementById(`prof-mgr-mob${idx}`).value = '';
+            }
+        };
+</script>
+
+
+</body>
+</html>
